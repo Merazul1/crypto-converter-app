@@ -13,6 +13,7 @@ import { PriceChart } from './components/PriceChart';
 import { ConversionMatrix } from './components/ConversionMatrix';
 import { MarketStats } from './components/MarketStats';
 import { SavedPairs } from './components/SavedPairs';
+import { SeoContent } from './components/SeoContent';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { Zap, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
@@ -50,17 +51,28 @@ export const App: React.FC = () => {
     return INITIAL_CURRENCIES.find((c) => c.symbol === 'USD') || INITIAL_CURRENCIES[1];
   });
 
-  // Sync active conversion pair to URL for easy sharing & SEO indexing
+  // Sync active conversion pair to URL & update dynamic SEO Title/Meta
   useEffect(() => {
     try {
       const url = new URL(window.location.href);
       url.searchParams.set('from', fromCurrency.symbol);
       url.searchParams.set('to', toCurrency.symbol);
       window.history.replaceState({}, '', url.toString());
+
+      // Dynamic SEO Title & Description for the active pair
+      document.title = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} Converter | CoinRates.live`;
+      
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute(
+          'content',
+          `Convert ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at free real-time exchange rates. Instant conversion, live charts, and fee simulator on CoinRates.live.`
+        );
+      }
     } catch {
       // ignore
     }
-  }, [fromCurrency.symbol, toCurrency.symbol]);
+  }, [fromCurrency, toCurrency]);
 
   // Live status & refresh state
   const [isLive, setIsLive] = useState<boolean>(true);
@@ -286,6 +298,11 @@ export const App: React.FC = () => {
             currencies={currencies}
             onSelectTarget={(target) => setToCurrency(target)}
           />
+        </section>
+
+        {/* EDUCATIONAL SEO CONTENT & GUIDE */}
+        <section id="guide-section">
+          <SeoContent />
         </section>
 
         {/* FAQ ACCORDION */}

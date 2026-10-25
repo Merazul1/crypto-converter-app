@@ -33,21 +33,80 @@
     <meta property="twitter:title" content="CoinRates.live — Free Real-Time Cryptocurrency Converter" />
     <meta property="twitter:description" content="Instant 2-way conversion between crypto and fiat currencies with live charts, gas tracker, and zero fees." />
 
-    <!-- Structured Data (JSON-LD) for Google Rich Snippets -->
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#090d16" />
+
+    <!-- Structured Data (JSON-LD) for Google Rich Snippets & FAQ SERP -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "CoinRates.live",
-      "url": "https://coinrates.live",
-      "description": "Free real-time cryptocurrency converter and live exchange rate tracker.",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "All",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://coinrates.live/#website",
+          "url": "https://coinrates.live/",
+          "name": "CoinRates.live",
+          "description": "Free Live Real-Time Cryptocurrency Converter & Exchange Rates",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://coinrates.live/?from={search_term_string}&to=USD",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://coinrates.live/#webapp",
+          "name": "CoinRates.live",
+          "url": "https://coinrates.live/",
+          "description": "Calculate live crypto conversions between Bitcoin, Ethereum, Solana, and 50+ fiat currencies with zero fees.",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://coinrates.live/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is CoinRates.live completely free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, CoinRates.live is 100% free with no registration, no hidden fees, and unlimited live conversions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where do the real-time cryptocurrency exchange rates come from?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Rates are fetched live directly from Binance's public REST ticker stream and global foreign exchange feeds, updating automatically."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I convert crypto to fiat currencies like USD, EUR, and INR?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, CoinRates.live provides instant 2-way conversion between popular cryptos (BTC, ETH, SOL, XRP, DOGE) and major fiat currencies (USD, EUR, GBP, INR, JPY, CAD, AUD)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How often do crypto rates update?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Rates update automatically in the background every 25 seconds, and users can trigger manual updates instantly via the refresh button."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
   </head>

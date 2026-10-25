@@ -1,0 +1,16 @@
+{
+  "name": "CoinRates.live - Free Real-Time Crypto Converter",
+  "short_name": "CoinRates",
+  "description": "Convert Bitcoin, Ethereum, Solana, and 50+ fiat currencies with live real-time exchange rates.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
