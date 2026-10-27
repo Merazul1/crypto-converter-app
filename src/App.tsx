@@ -15,6 +15,7 @@ import { MarketStats } from './components/MarketStats';
 import { SavedPairs } from './components/SavedPairs';
 import { SeoContent } from './components/SeoContent';
 import { FaqSection } from './components/FaqSection';
+import { AdBanner } from './components/AdBanner';
 import { Footer } from './components/Footer';
 import { Zap, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
 
@@ -265,6 +266,9 @@ export const App: React.FC = () => {
           />
         </section>
 
+        {/* ADSENSE LEADERBOARD BANNER 1 */}
+        <AdBanner className="my-2" />
+
         {/* SAVED PINNED PAIRS */}
         <section>
           <SavedPairs
@@ -304,6 +308,9 @@ export const App: React.FC = () => {
         <section id="guide-section">
           <SeoContent />
         </section>
+
+        {/* ADSENSE BANNER 2 */}
+        <AdBanner className="my-4" />
 
         {/* FAQ ACCORDION */}
         <section id="faq-section">
