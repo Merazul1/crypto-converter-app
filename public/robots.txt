@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://coinrates.live/sitemap.xml
+Sitemap: https://www.coinrates.live/sitemap.xml
