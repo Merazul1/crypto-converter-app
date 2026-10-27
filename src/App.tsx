@@ -226,12 +226,12 @@ export const App: React.FC = () => {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-            Live Crypto Currency Converter <br className="hidden sm:inline" />
-            <span className="gradient-text">Real-Time Rates at Zero Cost</span>
+            Cryptocurrency Exchange Rates <br className="hidden sm:inline" />
+            <span className="gradient-text">& Digital Currency Converter</span>
           </h1>
 
           <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Instant, high-precision exchange calculations on <strong className="text-slate-200">CoinRates.live</strong> between Bitcoin, Ethereum, Solana, and over 50 global fiat & crypto currencies with live Binance market depth.
+            Track real-time <strong className="text-slate-200">cryptocurrency exchange rates</strong> and calculate live digital currency conversion with zero fees on <strong className="text-slate-200">CoinRates.live</strong>.
           </p>
 
           <div className="flex items-center justify-center gap-6 pt-2 text-xs text-slate-400 flex-wrap">
