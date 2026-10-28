@@ -21,7 +21,11 @@ const FAQS: FaqItem[] = [
   },
   {
     q: 'Can I convert between crypto and fiat currencies like USD, EUR, or INR?',
-    a: 'Absolutely. CryptoConvert provides bidirectional calculations between cryptocurrencies (BTC, ETH, SOL, etc.) and global currencies (USD, EUR, GBP, INR, JPY, CAD, AUD, etc.).',
+    a: 'Absolutely. CoinRates.live provides bidirectional calculations between cryptocurrencies (BTC, ETH, SOL, etc.) and global currencies (USD, EUR, GBP, INR, JPY, CAD, AUD, etc.).',
+  },
+  {
+    q: 'How do crypto exchanges rates differ across platforms?',
+    a: 'Crypto exchanges rates can vary slightly between platforms like Binance, Coinbase, and Kraken due to order book depth and localized liquidity. CoinRates.live streams consolidated live benchmark rates to give you the most accurate real-time market value.',
   },
   {
     q: 'What is the slippage / fee adjustment option?',
