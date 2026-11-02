@@ -8,24 +8,32 @@ interface FaqItem {
 
 const FAQS: FaqItem[] = [
   {
+    q: 'Which sites support fast BTC to USD conversion?',
+    a: 'CoinRates.live is engineered specifically for instantaneous, zero-delay BTC to USD and cryptocurrency conversions. With direct streaming price feeds from Binance, zero sign-up requirements, and built-in slippage calculations, you can convert Bitcoin to US Dollar with 100% accuracy in real-time.',
+  },
+  {
+    q: 'What are fiat-to-crypto exchange rates and how are they tracked?',
+    a: 'Fiat-to-crypto exchange rates calculate the exact amount of cryptocurrency (such as Bitcoin, Ethereum, or Solana) you receive in exchange for traditional government fiat currencies (like USD, EUR, GBP, or INR). CoinRates.live tracks live market orders and decentralized currency benchmarks to provide continuous 24/7 rate updates.',
+  },
+  {
+    q: 'How does exchange rate tracking for crypto work in real-time?',
+    a: 'Exchange rate tracking for crypto monitors real-time bid and ask order books across premier liquidity venues like Binance. CoinRates.live streams consolidated price feeds every 20 seconds, eliminating localized distortions and giving you the true market clearing rate.',
+  },
+  {
+    q: 'How do crypto currencies exchange rates differ across platforms?',
+    a: 'Crypto currencies exchange rates can vary slightly between exchanges like Binance, Coinbase, and Kraken due to differing trading volumes and localized liquidity. CoinRates.live aggregates continuous live benchmark prices so you always see fair market value.',
+  },
+  {
     q: 'Is this live crypto converter completely free to use?',
-    a: 'Yes, 100% free. There are no registration forms, no subscriptions, and no hidden API limits for everyday calculations.',
+    a: 'Yes, CoinRates.live is 100% free with no registration forms, no subscriptions, and no hidden API limits for everyday calculations.',
   },
   {
     q: 'Where do the real-time exchange rates come from?',
-    a: 'We pull real-time data from major global liquidity providers including the Binance REST/WebSocket market feed and decentralized fx feeds. If you are offline, smart baseline rates guarantee seamless operation.',
-  },
-  {
-    q: 'How frequently are rates refreshed?',
-    a: 'Prices update automatically every 20 seconds. You can also press the circular refresh button on the converter card at any moment to trigger an immediate live sync.',
+    a: 'We pull real-time data from major global liquidity providers including Binance REST/WebSocket market streams and open foreign exchange feeds. If you are offline, smart baseline rates guarantee seamless operation.',
   },
   {
     q: 'Can I convert between crypto and fiat currencies like USD, EUR, or INR?',
-    a: 'Absolutely. CoinRates.live provides bidirectional calculations between cryptocurrencies (BTC, ETH, SOL, etc.) and global currencies (USD, EUR, GBP, INR, JPY, CAD, AUD, etc.).',
-  },
-  {
-    q: 'How do crypto exchanges rates differ across platforms?',
-    a: 'Crypto exchanges rates can vary slightly between platforms like Binance, Coinbase, and Kraken due to order book depth and localized liquidity. CoinRates.live streams consolidated live benchmark rates to give you the most accurate real-time market value.',
+    a: 'Yes, CoinRates.live provides instant bidirectional calculations between top cryptocurrencies (BTC, ETH, SOL, XRP, DOGE) and 50+ global fiat currencies (USD, EUR, GBP, INR, JPY, CAD, AUD).',
   },
   {
     q: 'What is the slippage / fee adjustment option?',

@@ -23,9 +23,16 @@ export const App: React.FC = () => {
   // Main currencies list
   const [currencies, setCurrencies] = useState<Currency[]>(INITIAL_CURRENCIES);
   
-  // Active conversion pair with URL query params support (?from=ETH&to=USD)
+  // Active conversion pair with URL path (/convert/btc-to-usd) and query params (?from=ETH&to=USD)
   const [fromCurrency, setFromCurrency] = useState<Currency>(() => {
     try {
+      const pathname = window.location.pathname.toLowerCase();
+      const match = pathname.match(/(?:convert\/)?([a-z0-9]+)-to-([a-z0-9]+)/i);
+      if (match) {
+        const fromSym = match[1].toUpperCase();
+        const found = INITIAL_CURRENCIES.find((c) => c.symbol === fromSym);
+        if (found) return found;
+      }
       const params = new URLSearchParams(window.location.search);
       const urlFrom = params.get('from')?.toUpperCase();
       if (urlFrom) {
@@ -40,6 +47,13 @@ export const App: React.FC = () => {
 
   const [toCurrency, setToCurrency] = useState<Currency>(() => {
     try {
+      const pathname = window.location.pathname.toLowerCase();
+      const match = pathname.match(/(?:convert\/)?([a-z0-9]+)-to-([a-z0-9]+)/i);
+      if (match) {
+        const toSym = match[2].toUpperCase();
+        const found = INITIAL_CURRENCIES.find((c) => c.symbol === toSym);
+        if (found) return found;
+      }
       const params = new URLSearchParams(window.location.search);
       const urlTo = params.get('to')?.toUpperCase();
       if (urlTo) {
@@ -55,19 +69,24 @@ export const App: React.FC = () => {
   // Sync active conversion pair to URL & update dynamic SEO Title/Meta
   useEffect(() => {
     try {
-      const url = new URL(window.location.href);
-      url.searchParams.set('from', fromCurrency.symbol);
-      url.searchParams.set('to', toCurrency.symbol);
-      window.history.replaceState({}, '', url.toString());
+      const pairPath = `/convert/${fromCurrency.symbol.toLowerCase()}-to-${toCurrency.symbol.toLowerCase()}`;
+      if (window.location.pathname.startsWith('/convert/') || window.location.pathname.includes('-to-')) {
+        window.history.replaceState({}, '', pairPath);
+      } else {
+        const url = new URL(window.location.href);
+        url.searchParams.set('from', fromCurrency.symbol);
+        url.searchParams.set('to', toCurrency.symbol);
+        window.history.replaceState({}, '', url.toString());
+      }
 
       // Dynamic SEO Title & Description for the active pair
-      document.title = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} Converter | CoinRates.live`;
+      document.title = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} Rate | CoinRates.live`;
       
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
         metaDesc.setAttribute(
           'content',
-          `Convert ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at free real-time exchange rates. Instant conversion, live charts, and fee simulator on CoinRates.live.`
+          `Convert ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at free real-time fiat-to-crypto exchange rates. Fast BTC to USD calculator and live charts on CoinRates.live.`
         );
       }
     } catch {
@@ -228,11 +247,11 @@ export const App: React.FC = () => {
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
             Cryptocurrency Exchange Rates <br className="hidden sm:inline" />
-            <span className="gradient-text">& Digital Currency Converter</span>
+            <span className="gradient-text">& Fiat-to-Crypto Converter</span>
           </h1>
 
           <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Track real-time <strong className="text-slate-200">cryptocurrency exchange rates</strong> and calculate live digital currency conversion with zero fees on <strong className="text-slate-200">CoinRates.live</strong>.
+            Track real-time <strong className="text-slate-200">crypto currencies exchange rates</strong> and calculate live <strong className="text-slate-200">fiat-to-crypto exchange rates</strong> with zero fees. Fast, free BTC to USD calculator on <strong className="text-slate-200">CoinRates.live</strong>.
           </p>
 
           <div className="flex items-center justify-center gap-6 pt-2 text-xs text-slate-400 flex-wrap">
