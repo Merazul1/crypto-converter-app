@@ -15,8 +15,8 @@ import { MarketStats } from './components/MarketStats';
 import { SavedPairs } from './components/SavedPairs';
 import { SeoContent } from './components/SeoContent';
 import { FaqSection } from './components/FaqSection';
-import { AdBanner } from './components/AdBanner';
 import { Footer } from './components/Footer';
+import { StaticPage } from './components/StaticPages';
 import { Zap, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -66,8 +66,56 @@ export const App: React.FC = () => {
     return INITIAL_CURRENCIES.find((c) => c.symbol === 'USD') || INITIAL_CURRENCIES[1];
   });
 
+  // Standalone pages navigation state
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    try {
+      return window.location.pathname.toLowerCase();
+    } catch {
+      return '/';
+    }
+  });
+
+  const handleNavigate = (path: string) => {
+    setCurrentPath(path.toLowerCase());
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname.toLowerCase());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Determine if viewing a static informational/guide page
+  let staticPageKey: 'about' | 'contact' | 'privacy' | 'terms' | 'disclaimer' | 'guides' | 'guide-rates' | 'guide-fiat' | 'guide-marketcap' | 'guide-gas' | null = null;
+  if (currentPath.startsWith('/about')) staticPageKey = 'about';
+  else if (currentPath.startsWith('/contact')) staticPageKey = 'contact';
+  else if (currentPath.startsWith('/privacy')) staticPageKey = 'privacy';
+  else if (currentPath.startsWith('/terms')) staticPageKey = 'terms';
+  else if (currentPath.startsWith('/disclaimer')) staticPageKey = 'disclaimer';
+  else if (currentPath === '/guides/how-crypto-exchange-rates-work') staticPageKey = 'guide-rates';
+  else if (currentPath === '/guides/fiat-to-crypto-conversion-guide') staticPageKey = 'guide-fiat';
+  else if (currentPath === '/guides/crypto-market-cap-vs-volume') staticPageKey = 'guide-marketcap';
+  else if (currentPath === '/guides/understanding-ethereum-gas-fees') staticPageKey = 'guide-gas';
+  else if (currentPath.startsWith('/guides')) staticPageKey = 'guides';
+
   // Sync active conversion pair to URL & update dynamic SEO Title/Meta
   useEffect(() => {
+    if (staticPageKey) {
+      if (staticPageKey === 'about') document.title = 'About CoinRates.live — Free Real-Time Cryptocurrency Converter';
+      else if (staticPageKey === 'contact') document.title = 'Contact Us & Technical Support | CoinRates.live';
+      else if (staticPageKey === 'privacy') document.title = 'Privacy Policy & Cookies Disclosure | CoinRates.live';
+      else if (staticPageKey === 'terms') document.title = 'Terms of Service | CoinRates.live';
+      else if (staticPageKey === 'disclaimer') document.title = 'Financial Risk Disclaimer | CoinRates.live';
+      else if (staticPageKey === 'guides') document.title = 'Crypto Market Guides & Knowledge Base | CoinRates.live';
+      else if (staticPageKey === 'guide-rates') document.title = 'How Crypto Exchange Rates Are Determined | CoinRates.live';
+      else if (staticPageKey === 'guide-fiat') document.title = 'Guide to Fiat-to-Crypto Exchange Rates | CoinRates.live';
+      else if (staticPageKey === 'guide-marketcap') document.title = 'Market Cap vs. 24h Trading Volume | CoinRates.live';
+      else if (staticPageKey === 'guide-gas') document.title = 'Understanding Ethereum Gas Fees (Gwei) | CoinRates.live';
+      return;
+    }
+
     try {
       const pairPath = `/convert/${fromCurrency.symbol.toLowerCase()}-to-${toCurrency.symbol.toLowerCase()}`;
       if (window.location.pathname.startsWith('/convert/') || window.location.pathname.includes('-to-')) {
@@ -92,7 +140,7 @@ export const App: React.FC = () => {
     } catch {
       // ignore
     }
-  }, [fromCurrency, toCurrency]);
+  }, [fromCurrency, toCurrency, staticPageKey]);
 
   // Live status & refresh state
   const [isLive, setIsLive] = useState<boolean>(true);
@@ -232,113 +280,115 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col font-sans">
       {/* Top Navbar */}
-      <Navbar isLive={isLive} onScrollTo={scrollToSection} />
+      <Navbar isLive={isLive} onScrollTo={scrollToSection} onNavigate={handleNavigate} />
 
       {/* Live Continuous Ticker Tape */}
       <LiveTicker currencies={currencies} onSelectCoin={handleSelectSingleCoin} />
 
-      {/* Hero Header */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
-        <section className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>CoinRates.live • Free Real-Time Cryptocurrency Converter</span>
-          </div>
+      {/* Render Standalone Page OR Full Converter Dashboard */}
+      {staticPageKey ? (
+        <main className="flex-1 w-full">
+          <StaticPage page={staticPageKey} onNavigate={handleNavigate} />
+        </main>
+      ) : (
+        /* Main Converter Dashboard */
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
+          {/* Hero Header */}
+          <section className="text-center max-w-3xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <span>CoinRates.live • Free Real-Time Cryptocurrency Converter</span>
+            </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-            Cryptocurrency Exchange Rates <br className="hidden sm:inline" />
-            <span className="gradient-text">& Fiat-to-Crypto Converter</span>
-          </h1>
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+              Cryptocurrency Exchange Rates <br className="hidden sm:inline" />
+              <span className="gradient-text">& Fiat-to-Crypto Converter</span>
+            </h1>
 
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Track real-time <strong className="text-slate-200">crypto currencies exchange rates</strong> and calculate live <strong className="text-slate-200">fiat-to-crypto exchange rates</strong> with zero fees. Fast, free BTC to USD calculator on <strong className="text-slate-200">CoinRates.live</strong>.
-          </p>
+            <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+              Track real-time <strong className="text-slate-200">crypto currencies exchange rates</strong> and calculate live <strong className="text-slate-200">fiat-to-crypto exchange rates</strong> with zero fees. Fast, free BTC to USD calculator on <strong className="text-slate-200">CoinRates.live</strong>.
+            </p>
 
-          <div className="flex items-center justify-center gap-6 pt-2 text-xs text-slate-400 flex-wrap">
-            <span className="flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-amber-400" /> Instant Calculations
-            </span>
-            <span className="flex items-center gap-1.5">
-              <TrendingUp className="w-4 h-4 text-emerald-400" /> Live Market Feed
-            </span>
-            <span className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-indigo-400" /> Zero Sign-up Required
-            </span>
-          </div>
-        </section>
+            <div className="flex items-center justify-center gap-6 pt-2 text-xs text-slate-400 flex-wrap">
+              <span className="flex items-center gap-1.5">
+                <Zap className="w-4 h-4 text-amber-400" /> Instant Calculations
+              </span>
+              <span className="flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4 text-emerald-400" /> Live Market Feed
+              </span>
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-indigo-400" /> Zero Sign-up Required
+              </span>
+            </div>
+          </section>
 
-        {/* PRIMARY CONVERTER SECTION */}
-        <section id="converter-section">
-          <Converter
-            currencies={currencies}
-            fromCurrency={fromCurrency}
-            toCurrency={toCurrency}
-            onFromCurrencyChange={setFromCurrency}
-            onToCurrencyChange={setToCurrency}
-            onSwap={handleSwap}
-            onRefresh={refreshRates}
-            isRefreshing={isRefreshing}
-            lastUpdated={lastUpdated}
-            isLive={isLive}
-            onSaveFavorite={toggleFavorite}
-            isFavorite={isCurrentFavorite}
-          />
-        </section>
+          {/* PRIMARY CONVERTER SECTION */}
+          <section id="converter-section">
+            <Converter
+              currencies={currencies}
+              fromCurrency={fromCurrency}
+              toCurrency={toCurrency}
+              onFromCurrencyChange={setFromCurrency}
+              onToCurrencyChange={setToCurrency}
+              onSwap={handleSwap}
+              onRefresh={refreshRates}
+              isRefreshing={isRefreshing}
+              lastUpdated={lastUpdated}
+              isLive={isLive}
+              onSaveFavorite={toggleFavorite}
+              isFavorite={isCurrentFavorite}
+            />
+          </section>
 
-        {/* ADSENSE LEADERBOARD BANNER 1 */}
-        <AdBanner className="my-2" />
+          {/* SAVED PINNED PAIRS */}
+          <section>
+            <SavedPairs
+              favorites={favorites}
+              currencies={currencies}
+              onSelectPair={handleSelectPair}
+              onRemoveFavorite={(from, to) => toggleFavorite(from, to)}
+            />
+          </section>
 
-        {/* SAVED PINNED PAIRS */}
-        <section>
-          <SavedPairs
-            favorites={favorites}
-            currencies={currencies}
-            onSelectPair={handleSelectPair}
-            onRemoveFavorite={(from, to) => toggleFavorite(from, to)}
-          />
-        </section>
+          {/* MARKET MICRO WIDGETS & POPULAR PRESETS */}
+          <section>
+            <MarketStats
+              gasInfo={gasInfo}
+              fearAndGreed={fearAndGreed}
+              onSelectPair={handleSelectPair}
+              currentFrom={fromCurrency.symbol}
+              currentTo={toCurrency.symbol}
+            />
+          </section>
 
-        {/* MARKET MICRO WIDGETS & POPULAR PRESETS */}
-        <section>
-          <MarketStats
-            gasInfo={gasInfo}
-            fearAndGreed={fearAndGreed}
-            onSelectPair={handleSelectPair}
-            currentFrom={fromCurrency.symbol}
-            currentTo={toCurrency.symbol}
-          />
-        </section>
+          {/* INTERACTIVE PRICE CHART */}
+          <section id="chart-section">
+            <PriceChart currency={chartCurrency} vsCurrency={toCurrency} />
+          </section>
 
-        {/* INTERACTIVE PRICE CHART */}
-        <section id="chart-section">
-          <PriceChart currency={chartCurrency} vsCurrency={toCurrency} />
-        </section>
+          {/* GLOBAL CONVERSION MATRIX */}
+          <section id="matrix-section">
+            <ConversionMatrix
+              sourceCurrency={fromCurrency}
+              currencies={currencies}
+              onSelectTarget={(target) => setToCurrency(target)}
+            />
+          </section>
 
-        {/* GLOBAL CONVERSION MATRIX */}
-        <section id="matrix-section">
-          <ConversionMatrix
-            sourceCurrency={fromCurrency}
-            currencies={currencies}
-            onSelectTarget={(target) => setToCurrency(target)}
-          />
-        </section>
+          {/* EDUCATIONAL SEO CONTENT & GUIDE */}
+          <section id="guide-section">
+            <SeoContent />
+          </section>
 
-        {/* EDUCATIONAL SEO CONTENT & GUIDE */}
-        <section id="guide-section">
-          <SeoContent />
-        </section>
-
-        {/* ADSENSE BANNER 2 */}
-        <AdBanner className="my-4" />
-
-        {/* FAQ ACCORDION */}
-        <section id="faq-section">
-          <FaqSection />
-        </section>
-      </main>
+          {/* FAQ ACCORDION */}
+          <section id="faq-section">
+            <FaqSection />
+          </section>
+        </main>
+      )}
 
       {/* Footer */}
-      <Footer />
+      <Footer onNavigate={handleNavigate} />
     </div>
   );
 };

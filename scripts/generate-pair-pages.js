@@ -42,13 +42,175 @@ const PAIRS = [
   { fromSym: 'ETH', fromName: 'Ethereum', toSym: 'BTC', toName: 'Bitcoin', rate: 0.039, isCryptoToCrypto: true },
 ];
 
+// Standalone Editorial & Trust Pages for AdSense Compliance
+const STATIC_EDITORIAL_PAGES = [
+  {
+    slug: 'about',
+    title: 'About CoinRates.live — Free Real-Time Cryptocurrency Converter',
+    desc: 'Learn about CoinRates.live, our real-time market data methodology, zero-fee commitment, and independent crypto rate tracking platform.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">About CoinRates.live</h1>
+        <p style="font-size: 16px;"><strong>CoinRates.live</strong> is an independent, free, real-time cryptocurrency conversion and exchange rate platform. Our mission is to provide cryptocurrency traders, Web3 developers, global freelancers, and digital currency investors with instantaneous, accurate, and completely transparent financial conversion tools without mandatory registrations, paid subscriptions, or intrusive popups.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Our Market Data Methodology</h2>
+        <p>Unlike static calculators that cache prices once every few hours, CoinRates.live streams live market prices continuously from premier global liquidity order books (including Binance REST and WebSocket endpoints) and decentralized FX benchmarks. Prices refresh automatically every 25 seconds to capture volatile micro-swings across Bitcoin (BTC), Ethereum (ETH), Solana (SOL), and over 50 global fiat currencies.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Editorial & Integrity Standards</h2>
+        <p>CoinRates.live does not provide financial or investment advice. All rates, calculations, sparkline charts, and market metrics are generated algorithmically for educational and informational utility. We maintain strict editorial independence and do not manipulate conversion rates for third-party sponsors.</p>
+      </article>
+    `
+  },
+  {
+    slug: 'contact',
+    title: 'Contact Us & Technical Support | CoinRates.live',
+    desc: 'Get in touch with the CoinRates.live team for technical support, partnership inquiries, and feedback.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Contact Us</h1>
+        <p style="font-size: 16px;">Have questions about our exchange rates, feature suggestions, API partnerships, or bug reports? The CoinRates.live team is here to help.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Direct Email Inquiries</h2>
+        <p>You can email our engineering and support inbox directly at: <a href="mailto:support@coinrates.live" style="color: #818cf8; font-weight: bold;">support@coinrates.live</a>. We typically respond within 24 business hours.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Technical Support & Listing Inquiries</h2>
+        <p>Notice an issue with a currency feed or want to request a new altcoin listing? Reach out directly with the pair name and exchange details.</p>
+      </article>
+    `
+  },
+  {
+    slug: 'privacy-policy',
+    title: 'Privacy Policy & Cookies Disclosure | CoinRates.live',
+    desc: 'Our complete privacy policy detailing Google AdSense cookies, DAA WebChoices, log files, and GDPR compliance on CoinRates.live.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Privacy Policy</h1>
+        <p>At <strong>CoinRates.live</strong>, accessible from https://www.coinrates.live, the privacy of our visitors is of paramount importance to us. This Privacy Policy outlines the types of personal information collected by CoinRates.live and how it is used.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Cookies, Web Beacons & Google AdSense</h2>
+        <p>Google, as a third-party vendor, uses cookies to serve ads on CoinRates.live. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to CoinRates.live and other sites across the internet. Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" style="color: #818cf8;">Google Ads Settings</a> and the <a href="https://optout.aboutads.info/" target="_blank" rel="noopener noreferrer" style="color: #818cf8;">DAA WebChoices Tool</a>.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Log Files & Analytics</h2>
+        <p>Like many websites, CoinRates.live makes use of log files and privacy-focused analytics. The information inside log files includes IP addresses, browser types, Internet Service Providers (ISP), date/time stamps, and referring pages to analyze trends and optimize technical performance.</p>
+      </article>
+    `
+  },
+  {
+    slug: 'terms',
+    title: 'Terms of Service | CoinRates.live',
+    desc: 'Read the Terms of Service for using CoinRates.live real-time cryptocurrency conversion and market data tools.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Terms of Service</h1>
+        <p>Welcome to CoinRates.live. By accessing and using this website, you agree to comply with and be bound by these terms and conditions.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Permitted Use</h2>
+        <p>CoinRates.live provides real-time digital currency conversion for personal, educational, and non-commercial business reference. You may not scrape or overload our streaming endpoints without explicit written authorization.</p>
+      </article>
+    `
+  },
+  {
+    slug: 'disclaimer',
+    title: 'Financial & Risk Disclaimer | CoinRates.live',
+    desc: 'Financial disclaimer for CoinRates.live. Learn about cryptocurrency market risks and non-advisory calculations.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Financial & Risk Disclaimer</h1>
+        <p>Cryptocurrency trading and digital asset investments involve substantial risk of financial loss. Prices are highly volatile and can fluctuate dramatically within seconds. The content and conversion calculations provided on CoinRates.live are for informational and educational purposes only. Nothing on this website constitutes investment, financial, or legal advice.</p>
+      </article>
+    `
+  },
+  {
+    slug: 'guides',
+    title: 'Crypto Market Guides & Knowledge Base | CoinRates.live',
+    desc: 'Explore comprehensive cryptocurrency guides explaining exchange rates, fiat conversions, market capitalization, and Ethereum gas fees.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Crypto Guides & Knowledge Base</h1>
+        <p style="font-size: 16px;">In-depth, comprehensive educational guides on how cryptocurrency exchange rates work, fiat conversions, market cap dynamics, and exchange liquidity.</p>
+        <ul style="margin-top: 24px; font-size: 16px; line-height: 2;">
+          <li><a href="/guides/how-crypto-exchange-rates-work" style="color: #818cf8; font-weight: bold;">How Crypto Exchange Rates Are Determined: Order Books & Bid-Ask Spreads</a></li>
+          <li><a href="/guides/fiat-to-crypto-conversion-guide" style="color: #818cf8; font-weight: bold;">The Complete Guide to Fiat-to-Crypto Exchange Rates & Banking Rails</a></li>
+          <li><a href="/guides/crypto-market-cap-vs-volume" style="color: #818cf8; font-weight: bold;">Market Capitalization vs. 24h Trading Volume: What Smart Traders Watch</a></li>
+          <li><a href="/guides/understanding-ethereum-gas-fees" style="color: #818cf8; font-weight: bold;">Understanding Ethereum Gas Fees (Gwei & EIP-1559)</a></li>
+        </ul>
+      </article>
+    `
+  },
+  {
+    slug: 'guides/how-crypto-exchange-rates-work',
+    title: 'How Crypto Exchange Rates Are Determined | CoinRates.live',
+    desc: 'Understand how order book depth, bid-ask spreads, and market arbitrage determine real-time cryptocurrency exchange rates.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/guides" style="color: #818cf8;">← Back to Guides</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">How Crypto Exchange Rates Are Determined</h1>
+        <p style="font-size: 16px;">Unlike fiat currencies managed by central banks, cryptocurrency exchange rates are governed purely by decentralized market forces: supply and demand across global liquidity order books.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Order Books & The Bid-Ask Spread</h2>
+        <p>On centralized cryptocurrency exchanges like Binance, Coinbase, and Kraken, market participants place limit orders. Bids represent buyers' desired prices, while Asks represent sellers' minimum acceptable prices. The midpoint between the highest bid and lowest ask constitutes the live market spot rate.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. Cross-Exchange Arbitrage</h2>
+        <p>Because cryptocurrency trades globally 24 hours a day across hundreds of independent exchanges, prices can momentarily diverge. Automated trading bots exploit these micro-differences through arbitrage, swiftly pulling global prices back into equilibrium.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">3. How CoinRates.live Aggregates Benchmark Prices</h2>
+        <p>CoinRates.live connects directly to high-volume order book tickers, filtering out illiquid anomalies to deliver an accurate consolidated rate. This ensures your calculations reflect true global clearing value.</p>
+      </article>
+    `
+  },
+  {
+    slug: 'guides/fiat-to-crypto-conversion-guide',
+    title: 'Guide to Fiat-to-Crypto Exchange Rates | CoinRates.live',
+    desc: 'A complete breakdown of how fiat-to-crypto exchange rates are calculated across USD, EUR, GBP, and INR without hidden fees.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/guides" style="color: #818cf8;">← Back to Guides</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">The Complete Guide to Fiat-to-Crypto Exchange Rates</h1>
+        <p style="font-size: 16px;">Converting fiat currency (government-issued cash like USD, EUR, GBP, INR, JPY) into cryptocurrency is the foundational gateway to Web3 and decentralized finance.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Foreign Exchange Benchmarks</h2>
+        <p>Cryptocurrency assets are primarily paired against the US Dollar (USD) or USD-pegged stablecoins (USDT, USDC). When converting a local fiat currency like Euro or Indian Rupee into Bitcoin, the calculation involves two simultaneous exchange rate benchmarks: the crypto spot rate in USD, and the USD to local fiat forex benchmark.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. Avoiding Hidden Brokerage Markups</h2>
+        <p>Many credit card on-ramps advertise 'zero commission' while quietly embedding a 2% to 4% markup inside an artificial exchange rate. Always use an independent rate checker like CoinRates.live to verify fair market spot prices before executing a trade.</p>
+      </article>
+    `
+  },
+  {
+    slug: 'guides/crypto-market-cap-vs-volume',
+    title: 'Market Cap vs. 24h Trading Volume | CoinRates.live',
+    desc: 'Why market capitalization alone can be misleading without evaluating 24-hour liquidity and exchange volume.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/guides" style="color: #818cf8;">← Back to Guides</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Market Capitalization vs. 24h Trading Volume</h1>
+        <p style="font-size: 16px;">In crypto investing, high market capitalization does not always guarantee safety. To evaluate true asset strength, investors must analyze the critical interplay between Market Cap and 24-Hour Trading Volume.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Market Cap: A Snapshot of Valuation</h2>
+        <p>Market capitalization is calculated by multiplying an asset's current unit price by its total circulating coin supply. Bitcoin maintains a market cap exceeding $1.3 Trillion, reflecting broad institutional adoption.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. 24-Hour Volume: The True Measure of Liquidity</h2>
+        <p>An altcoin can boast a $100 Million market cap, but if its 24-hour trading volume is only $5,000, any moderate sell order will cause the price to crater. High trading volume ensures tight bid-ask spreads and low trade slippage.</p>
+      </article>
+    `
+  },
+  {
+    slug: 'guides/understanding-ethereum-gas-fees',
+    title: 'Understanding Ethereum Gas Fees (Gwei & EIP-1559) | CoinRates.live',
+    desc: 'Learn how Ethereum network gas fees are calculated in Gwei, how EIP-1559 burns base fees, and how to save money on transaction fees.',
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/guides" style="color: #818cf8;">← Back to Guides</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Understanding Ethereum Gas Fees (Gwei & EIP-1559)</h1>
+        <p style="font-size: 16px;">Every transaction executed on the Ethereum blockchain requires computational fuel called gas. Learn how to track and optimize gas costs before sending transactions.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. What is Gwei?</h2>
+        <p>Gwei is a denomination of Ether (ETH), where 1 Gwei equals 0.000000001 ETH (10⁻⁹ ETH). Gas fees are priced in Gwei to keep micro-calculations readable instead of dealing with ten decimal places.</p>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. How EIP-1559 Works</h2>
+        <p>Under Ethereum's EIP-1559 upgrade, gas fees consist of a mandatory Base Fee (which is burned by the protocol) and an optional Priority Tip paid to block validators during periods of heavy on-chain congestion.</p>
+      </article>
+    `
+  }
+];
+
 function formatRate(num) {
   if (num < 0.0001) return num.toFixed(8);
   if (num < 1) return num.toFixed(4);
   return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
 }
 
-function generatePairPages() {
+function generatePages() {
   const templatePath = path.join(DIST_DIR, 'index.html');
   if (!fs.existsSync(templatePath)) {
     console.error('Error: dist/index.html does not exist. Run vite build first.');
@@ -56,7 +218,7 @@ function generatePairPages() {
   }
 
   const baseHtml = fs.readFileSync(templatePath, 'utf-8');
-  const today = '2026-11-02';
+  const today = '2026-11-06';
   const sitemapUrls = [
     `  <url>
     <loc>https://www.coinrates.live/</loc>
@@ -66,6 +228,44 @@ function generatePairPages() {
   </url>`
   ];
 
+  // 1. Generate Static Editorial & Trust Pages (About, Contact, Privacy, Terms, Disclaimer, Guides)
+  for (const page of STATIC_EDITORIAL_PAGES) {
+    const canonicalUrl = `https://www.coinrates.live/${page.slug}`;
+    let html = baseHtml;
+
+    html = html.replace(/<title>.*?<\/title>/i, `<title>${page.title}</title>`);
+    html = html.replace(/<meta name="title" content=".*?" \/>/i, `<meta name="title" content="${page.title}" />`);
+    html = html.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${page.desc}" />`);
+    html = html.replace(/<link rel="canonical" href=".*?" \/>/i, `<link rel="canonical" href="${canonicalUrl}" />`);
+    html = html.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
+    html = html.replace(/<meta property="og:title" content=".*?" \/>/i, `<meta property="og:title" content="${page.title}" />`);
+    html = html.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${page.desc}" />`);
+    html = html.replace(/<meta property="twitter:url" content=".*?" \/>/i, `<meta property="twitter:url" content="${canonicalUrl}" />`);
+    html = html.replace(/<meta property="twitter:title" content=".*?" \/>/i, `<meta property="twitter:title" content="${page.title}" />`);
+    html = html.replace(/<meta property="twitter:description" content=".*?" \/>/i, `<meta property="twitter:description" content="${page.desc}" />`);
+
+    html = html.replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${page.content}</div>`);
+
+    const pageDir = path.join(DIST_DIR, page.slug);
+    fs.mkdirSync(pageDir, { recursive: true });
+    fs.writeFileSync(path.join(pageDir, 'index.html'), html, 'utf-8');
+
+    // Add alias for privacy -> privacy-policy
+    if (page.slug === 'privacy-policy') {
+      const aliasDir = path.join(DIST_DIR, 'privacy');
+      fs.mkdirSync(aliasDir, { recursive: true });
+      fs.writeFileSync(path.join(aliasDir, 'index.html'), html, 'utf-8');
+    }
+
+    sitemapUrls.push(`  <url>
+    <loc>${canonicalUrl}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`);
+  }
+
+  // 2. Generate Dedicated Conversion Pair Pages
   for (const pair of PAIRS) {
     const slug = `${pair.fromSym.toLowerCase()}-to-${pair.toSym.toLowerCase()}`;
     const canonicalUrl = `https://www.coinrates.live/convert/${slug}`;
@@ -74,13 +274,10 @@ function generatePairPages() {
 
     let html = baseHtml;
 
-    // 1. Replace Title & Meta Description
     html = html.replace(/<title>.*?<\/title>/i, `<title>${pageTitle}</title>`);
     html = html.replace(/<meta name="title" content=".*?" \/>/i, `<meta name="title" content="${pageTitle}" />`);
     html = html.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${metaDesc}" />`);
     html = html.replace(/<link rel="canonical" href=".*?" \/>/i, `<link rel="canonical" href="${canonicalUrl}" />`);
-
-    // 2. Open Graph & Twitter
     html = html.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
     html = html.replace(/<meta property="og:title" content=".*?" \/>/i, `<meta property="og:title" content="${pageTitle}" />`);
     html = html.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${metaDesc}" />`);
@@ -88,7 +285,6 @@ function generatePairPages() {
     html = html.replace(/<meta property="twitter:title" content=".*?" \/>/i, `<meta property="twitter:title" content="${pageTitle}" />`);
     html = html.replace(/<meta property="twitter:description" content=".*?" \/>/i, `<meta property="twitter:description" content="${metaDesc}" />`);
 
-    // 3. Pre-rendered JSON-LD schema for pair
     const pairSchema = {
       "@context": "https://schema.org",
       "@graph": [
@@ -143,7 +339,6 @@ function generatePairPages() {
 
     html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, `<script type="application/ld+json">\n${JSON.stringify(pairSchema, null, 2)}\n</script>`);
 
-    // 4. Pre-rendered HTML inside <div id="root">
     const preRenderedContent = `
       <main style="max-width: 960px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
         <nav style="font-size: 13px; margin-bottom: 20px; color: #94a3b8;">
@@ -201,17 +396,14 @@ function generatePairPages() {
 
     html = html.replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${preRenderedContent}</div>`);
 
-    // 5. Output file to dist/convert/[slug]/index.html
     const pairDir = path.join(DIST_DIR, 'convert', slug);
     fs.mkdirSync(pairDir, { recursive: true });
     fs.writeFileSync(path.join(pairDir, 'index.html'), html, 'utf-8');
 
-    // Also output to dist/[slug]/index.html for root path alias
     const directDir = path.join(DIST_DIR, slug);
     fs.mkdirSync(directDir, { recursive: true });
     fs.writeFileSync(path.join(directDir, 'index.html'), html, 'utf-8');
 
-    // Add to sitemap
     sitemapUrls.push(`  <url>
     <loc>${canonicalUrl}</loc>
     <lastmod>${today}</lastmod>
@@ -220,7 +412,7 @@ function generatePairPages() {
   </url>`);
   }
 
-  // 6. Generate Complete Sitemap
+  // 3. Generate Complete Sitemap
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapUrls.join('\n')}
@@ -229,8 +421,8 @@ ${sitemapUrls.join('\n')}
   fs.writeFileSync(SITEMAP_PUBLIC_PATH, sitemapXml, 'utf-8');
   fs.writeFileSync(SITEMAP_DIST_PATH, sitemapXml, 'utf-8');
 
-  console.log(`Successfully generated ${PAIRS.length} dedicated pair pages!`);
+  console.log(`Successfully generated ${STATIC_EDITORIAL_PAGES.length} editorial pages and ${PAIRS.length} dedicated pair pages!`);
   console.log(`Updated sitemap.xml with ${sitemapUrls.length} total canonical URLs.`);
 }
 
-generatePairPages();
+generatePages();

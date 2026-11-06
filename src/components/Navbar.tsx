@@ -5,47 +5,95 @@ import { Logo } from './Logo';
 interface NavbarProps {
   isLive: boolean;
   onScrollTo: (id: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo }) => {
+export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo, onNavigate }) => {
+  const handleNavClick = (path: string, sectionId?: string) => {
+    if (window.location.pathname !== '/' && !window.location.pathname.startsWith('/convert/')) {
+      if (onNavigate) {
+        window.history.pushState({}, '', path);
+        onNavigate(path);
+      } else {
+        window.location.href = path;
+      }
+    } else if (sectionId) {
+      onScrollTo(sectionId);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-lg border-b border-slate-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Brand Logo */}
-        <div 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        <a 
+          href="/"
+          onClick={(e) => {
+            if (onNavigate) {
+              e.preventDefault();
+              window.history.pushState({}, '', '/');
+              onNavigate('/');
+            }
+          }}
           className="cursor-pointer"
         >
           <Logo size="md" />
-        </div>
+        </a>
 
         {/* Navigation links */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-300">
           <button
-            onClick={() => onScrollTo('converter-section')}
+            onClick={() => handleNavClick('/', 'converter-section')}
             className="hover:text-indigo-400 transition"
           >
             Converter
           </button>
           <button
-            onClick={() => onScrollTo('chart-section')}
+            onClick={() => handleNavClick('/', 'chart-section')}
             className="hover:text-indigo-400 transition"
           >
             Live Chart
           </button>
-          <button
-            onClick={() => onScrollTo('matrix-section')}
+          <a
+            href="/guides"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                window.history.pushState({}, '', '/guides');
+                onNavigate('/guides');
+              }
+            }}
             className="hover:text-indigo-400 transition"
           >
-            Global Matrix
-          </button>
-          <button
-            onClick={() => onScrollTo('faq-section')}
+            Guides
+          </a>
+          <a
+            href="/about"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                window.history.pushState({}, '', '/about');
+                onNavigate('/about');
+              }
+            }}
             className="hover:text-indigo-400 transition"
           >
-            FAQ
-          </button>
+            About
+          </a>
+          <a
+            href="/contact"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                window.history.pushState({}, '', '/contact');
+                onNavigate('/contact');
+              }
+            }}
+            className="hover:text-indigo-400 transition"
+          >
+            Contact
+          </a>
         </nav>
 
         {/* Live status badge */}
