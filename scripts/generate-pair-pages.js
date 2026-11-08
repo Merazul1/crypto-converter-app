@@ -42,107 +42,146 @@ const PAIRS = [
   { fromSym: 'ETH', fromName: 'Ethereum', toSym: 'BTC', toName: 'Bitcoin', rate: 0.039, isCryptoToCrypto: true },
 ];
 
-// Standalone Editorial & Trust Pages for AdSense Compliance
+// Helper to format rates safely
+function formatRate(num) {
+  if (num < 0.0001) return num.toFixed(8);
+  if (num < 1) return num.toFixed(4);
+  return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
+}
+
+// Generate HTML links string for all 25 pairs to eliminate orphan pages
+const allPairsLinksHtml = PAIRS.map(p => {
+  const pSlug = `${p.fromSym.toLowerCase()}-to-${p.toSym.toLowerCase()}`;
+  return `<a href="https://www.coinrates.live/convert/${pSlug}" style="color: #818cf8; margin: 4px 8px; display: inline-block;">${p.fromSym} to ${p.toSym}</a>`;
+}).join(' • ');
+
+// Shared Sitewide Footer for Static and Editorial Pages
+const SHARED_FOOTER = `
+        <footer style="margin-top: 36px; padding-top: 20px; border-top: 1px solid #334155; font-size: 14px;">
+          <a href="https://www.coinrates.live/" style="color: #818cf8; margin-right: 16px;">Home</a>
+          <a href="https://www.coinrates.live/about" style="color: #818cf8; margin-right: 16px;">About Us</a>
+          <a href="https://www.coinrates.live/contact" style="color: #818cf8; margin-right: 16px;">Contact</a>
+          <a href="https://www.coinrates.live/privacy-policy" style="color: #818cf8; margin-right: 16px;">Privacy Policy</a>
+          <a href="https://www.coinrates.live/terms" style="color: #818cf8; margin-right: 16px;">Terms of Service</a>
+          <a href="https://www.coinrates.live/disclaimer" style="color: #818cf8; margin-right: 16px;">Disclaimer</a>
+          <a href="https://www.coinrates.live/guides" style="color: #818cf8;">Crypto Guides</a>
+        </footer>
+`;
+
+// Standalone Editorial & Trust Pages with Schema
 const STATIC_EDITORIAL_PAGES = [
   {
     slug: 'about',
+    isArticle: false,
     title: 'About CoinRates.live — Free Real-Time Cryptocurrency Converter',
     desc: 'Learn about CoinRates.live, our real-time market data methodology, zero-fee commitment, and independent crypto rate tracking platform.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/" style="color: #818cf8;">← Back to Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">About CoinRates.live</h1>
         <p style="font-size: 16px;"><strong>CoinRates.live</strong> is an independent, free, real-time cryptocurrency conversion and exchange rate platform. Our mission is to provide cryptocurrency traders, Web3 developers, global freelancers, and digital currency investors with instantaneous, accurate, and completely transparent financial conversion tools without mandatory registrations, paid subscriptions, or intrusive popups.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Our Market Data Methodology</h2>
         <p>Unlike static calculators that cache prices once every few hours, CoinRates.live streams live market prices continuously from premier global liquidity order books (including Binance REST and WebSocket endpoints) and decentralized FX benchmarks. Prices refresh automatically every 25 seconds to capture volatile micro-swings across Bitcoin (BTC), Ethereum (ETH), Solana (SOL), and over 50 global fiat currencies.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Editorial & Integrity Standards</h2>
         <p>CoinRates.live does not provide financial or investment advice. All rates, calculations, sparkline charts, and market metrics are generated algorithmically for educational and informational utility. We maintain strict editorial independence and do not manipulate conversion rates for third-party sponsors.</p>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'contact',
+    isArticle: false,
     title: 'Contact Us & Technical Support | CoinRates.live',
     desc: 'Get in touch with the CoinRates.live team for technical support, partnership inquiries, and feedback.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/" style="color: #818cf8;">← Back to Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Contact Us</h1>
         <p style="font-size: 16px;">Have questions about our exchange rates, feature suggestions, API partnerships, or bug reports? The CoinRates.live team is here to help.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Direct Email Inquiries</h2>
         <p>You can email our engineering and support inbox directly at: <a href="mailto:support@coinrates.live" style="color: #818cf8; font-weight: bold;">support@coinrates.live</a>. We typically respond within 24 business hours.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Technical Support & Listing Inquiries</h2>
         <p>Notice an issue with a currency feed or want to request a new altcoin listing? Reach out directly with the pair name and exchange details.</p>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'privacy-policy',
+    isArticle: false,
     title: 'Privacy Policy & Cookies Disclosure | CoinRates.live',
     desc: 'Our complete privacy policy detailing Google AdSense cookies, DAA WebChoices, log files, and GDPR compliance on CoinRates.live.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/" style="color: #818cf8;">← Back to Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Privacy Policy</h1>
         <p>At <strong>CoinRates.live</strong>, accessible from https://www.coinrates.live, the privacy of our visitors is of paramount importance to us. This Privacy Policy outlines the types of personal information collected by CoinRates.live and how it is used.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Cookies, Web Beacons & Google AdSense</h2>
         <p>Google, as a third-party vendor, uses cookies to serve ads on CoinRates.live. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to CoinRates.live and other sites across the internet. Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" style="color: #818cf8;">Google Ads Settings</a> and the <a href="https://optout.aboutads.info/" target="_blank" rel="noopener noreferrer" style="color: #818cf8;">DAA WebChoices Tool</a>.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Log Files & Analytics</h2>
         <p>Like many websites, CoinRates.live makes use of log files and privacy-focused analytics. The information inside log files includes IP addresses, browser types, Internet Service Providers (ISP), date/time stamps, and referring pages to analyze trends and optimize technical performance.</p>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'terms',
+    isArticle: false,
     title: 'Terms of Service | CoinRates.live',
     desc: 'Read the Terms of Service for using CoinRates.live real-time cryptocurrency conversion and market data tools.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/" style="color: #818cf8;">← Back to Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Terms of Service</h1>
         <p>Welcome to CoinRates.live. By accessing and using this website, you agree to comply with and be bound by these terms and conditions.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">Permitted Use</h2>
         <p>CoinRates.live provides real-time digital currency conversion for personal, educational, and non-commercial business reference. You may not scrape or overload our streaming endpoints without explicit written authorization.</p>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'disclaimer',
+    isArticle: false,
     title: 'Financial & Risk Disclaimer | CoinRates.live',
     desc: 'Financial disclaimer for CoinRates.live. Learn about cryptocurrency market risks and non-advisory calculations.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/" style="color: #818cf8;">← Back to Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Financial & Risk Disclaimer</h1>
         <p>Cryptocurrency trading and digital asset investments involve substantial risk of financial loss. Prices are highly volatile and can fluctuate dramatically within seconds. The content and conversion calculations provided on CoinRates.live are for informational and educational purposes only. Nothing on this website constitutes investment, financial, or legal advice.</p>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'guides',
+    isArticle: false,
     title: 'Crypto Market Guides & Knowledge Base | CoinRates.live',
     desc: 'Explore comprehensive cryptocurrency guides explaining exchange rates, fiat conversions, market capitalization, and Ethereum gas fees.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/" style="color: #818cf8;">← Back to Live Converter</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/" style="color: #818cf8;">← Back to Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Crypto Guides & Knowledge Base</h1>
         <p style="font-size: 16px;">In-depth, comprehensive educational guides on how cryptocurrency exchange rates work, fiat conversions, market cap dynamics, and exchange liquidity.</p>
-        <ul style="margin-top: 24px; font-size: 16px; line-height: 2;">
-          <li><a href="/guides/how-crypto-exchange-rates-work" style="color: #818cf8; font-weight: bold;">How Crypto Exchange Rates Are Determined: Order Books & Bid-Ask Spreads</a></li>
-          <li><a href="/guides/fiat-to-crypto-conversion-guide" style="color: #818cf8; font-weight: bold;">The Complete Guide to Fiat-to-Crypto Exchange Rates & Banking Rails</a></li>
-          <li><a href="/guides/crypto-market-cap-vs-volume" style="color: #818cf8; font-weight: bold;">Market Capitalization vs. 24h Trading Volume: What Smart Traders Watch</a></li>
-          <li><a href="/guides/understanding-ethereum-gas-fees" style="color: #818cf8; font-weight: bold;">Understanding Ethereum Gas Fees (Gwei & EIP-1559)</a></li>
+        <ul style="margin-top: 24px; font-size: 16px; line-height: 2.2;">
+          <li><a href="https://www.coinrates.live/guides/how-crypto-exchange-rates-work" style="color: #818cf8; font-weight: bold;">How Crypto Exchange Rates Are Determined: Order Books & Bid-Ask Spreads</a></li>
+          <li><a href="https://www.coinrates.live/guides/fiat-to-crypto-conversion-guide" style="color: #818cf8; font-weight: bold;">The Complete Guide to Fiat-to-Crypto Exchange Rates & Banking Rails</a></li>
+          <li><a href="https://www.coinrates.live/guides/crypto-market-cap-vs-volume" style="color: #818cf8; font-weight: bold;">Market Capitalization vs. 24h Trading Volume: What Smart Traders Watch</a></li>
+          <li><a href="https://www.coinrates.live/guides/understanding-ethereum-gas-fees" style="color: #818cf8; font-weight: bold;">Understanding Ethereum Gas Fees (Gwei & EIP-1559)</a></li>
         </ul>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'guides/how-crypto-exchange-rates-work',
+    isArticle: true,
     title: 'How Crypto Exchange Rates Are Determined | CoinRates.live',
     desc: 'Understand how order book depth, bid-ask spreads, and market arbitrage determine real-time cryptocurrency exchange rates.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/guides" style="color: #818cf8;">← Back to Guides</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/guides" style="color: #818cf8;">← Back to Guides</a> | <a href="https://www.coinrates.live/" style="color: #818cf8;">Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">How Crypto Exchange Rates Are Determined</h1>
         <p style="font-size: 16px;">Unlike fiat currencies managed by central banks, cryptocurrency exchange rates are governed purely by decentralized market forces: supply and demand across global liquidity order books.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Order Books & The Bid-Ask Spread</h2>
@@ -151,64 +190,97 @@ const STATIC_EDITORIAL_PAGES = [
         <p>Because cryptocurrency trades globally 24 hours a day across hundreds of independent exchanges, prices can momentarily diverge. Automated trading bots exploit these micro-differences through arbitrage, swiftly pulling global prices back into equilibrium.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">3. How CoinRates.live Aggregates Benchmark Prices</h2>
         <p>CoinRates.live connects directly to high-volume order book tickers, filtering out illiquid anomalies to deliver an accurate consolidated rate. This ensures your calculations reflect true global clearing value.</p>
+        <div style="margin-top: 36px; padding: 20px; background: rgba(15, 23, 42, 0.6); border-radius: 12px; border: 1px solid #334155;">
+          <h3 style="color: #f8fafc; font-size: 18px; margin-bottom: 10px;">Related Guides & Resources</h3>
+          <p style="font-size: 14px; line-height: 1.8;">
+            • <a href="https://www.coinrates.live/guides/fiat-to-crypto-conversion-guide" style="color: #818cf8;">The Complete Guide to Fiat-to-Crypto Exchange Rates</a><br/>
+            • <a href="https://www.coinrates.live/guides/crypto-market-cap-vs-volume" style="color: #818cf8;">Market Capitalization vs. 24h Trading Volume</a><br/>
+            • <a href="https://www.coinrates.live/guides/understanding-ethereum-gas-fees" style="color: #818cf8;">Understanding Ethereum Gas Fees (Gwei)</a>
+          </p>
+        </div>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'guides/fiat-to-crypto-conversion-guide',
+    isArticle: true,
     title: 'Guide to Fiat-to-Crypto Exchange Rates | CoinRates.live',
     desc: 'A complete breakdown of how fiat-to-crypto exchange rates are calculated across USD, EUR, GBP, and INR without hidden fees.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/guides" style="color: #818cf8;">← Back to Guides</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/guides" style="color: #818cf8;">← Back to Guides</a> | <a href="https://www.coinrates.live/" style="color: #818cf8;">Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">The Complete Guide to Fiat-to-Crypto Exchange Rates</h1>
         <p style="font-size: 16px;">Converting fiat currency (government-issued cash like USD, EUR, GBP, INR, JPY) into cryptocurrency is the foundational gateway to Web3 and decentralized finance.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Foreign Exchange Benchmarks</h2>
         <p>Cryptocurrency assets are primarily paired against the US Dollar (USD) or USD-pegged stablecoins (USDT, USDC). When converting a local fiat currency like Euro or Indian Rupee into Bitcoin, the calculation involves two simultaneous exchange rate benchmarks: the crypto spot rate in USD, and the USD to local fiat forex benchmark.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. Avoiding Hidden Brokerage Markups</h2>
         <p>Many credit card on-ramps advertise 'zero commission' while quietly embedding a 2% to 4% markup inside an artificial exchange rate. Always use an independent rate checker like CoinRates.live to verify fair market spot prices before executing a trade.</p>
+        <div style="margin-top: 36px; padding: 20px; background: rgba(15, 23, 42, 0.6); border-radius: 12px; border: 1px solid #334155;">
+          <h3 style="color: #f8fafc; font-size: 18px; margin-bottom: 10px;">Related Guides & Resources</h3>
+          <p style="font-size: 14px; line-height: 1.8;">
+            • <a href="https://www.coinrates.live/guides/how-crypto-exchange-rates-work" style="color: #818cf8;">How Crypto Exchange Rates Are Determined</a><br/>
+            • <a href="https://www.coinrates.live/guides/crypto-market-cap-vs-volume" style="color: #818cf8;">Market Capitalization vs. 24h Trading Volume</a><br/>
+            • <a href="https://www.coinrates.live/guides/understanding-ethereum-gas-fees" style="color: #818cf8;">Understanding Ethereum Gas Fees (Gwei)</a>
+          </p>
+        </div>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'guides/crypto-market-cap-vs-volume',
+    isArticle: true,
     title: 'Market Cap vs. 24h Trading Volume | CoinRates.live',
     desc: 'Why market capitalization alone can be misleading without evaluating 24-hour liquidity and exchange volume.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/guides" style="color: #818cf8;">← Back to Guides</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/guides" style="color: #818cf8;">← Back to Guides</a> | <a href="https://www.coinrates.live/" style="color: #818cf8;">Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Market Capitalization vs. 24h Trading Volume</h1>
         <p style="font-size: 16px;">In crypto investing, high market capitalization does not always guarantee safety. To evaluate true asset strength, investors must analyze the critical interplay between Market Cap and 24-Hour Trading Volume.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Market Cap: A Snapshot of Valuation</h2>
         <p>Market capitalization is calculated by multiplying an asset's current unit price by its total circulating coin supply. Bitcoin maintains a market cap exceeding $1.3 Trillion, reflecting broad institutional adoption.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. 24-Hour Volume: The True Measure of Liquidity</h2>
         <p>An altcoin can boast a $100 Million market cap, but if its 24-hour trading volume is only $5,000, any moderate sell order will cause the price to crater. High trading volume ensures tight bid-ask spreads and low trade slippage.</p>
+        <div style="margin-top: 36px; padding: 20px; background: rgba(15, 23, 42, 0.6); border-radius: 12px; border: 1px solid #334155;">
+          <h3 style="color: #f8fafc; font-size: 18px; margin-bottom: 10px;">Related Guides & Resources</h3>
+          <p style="font-size: 14px; line-height: 1.8;">
+            • <a href="https://www.coinrates.live/guides/how-crypto-exchange-rates-work" style="color: #818cf8;">How Crypto Exchange Rates Are Determined</a><br/>
+            • <a href="https://www.coinrates.live/guides/fiat-to-crypto-conversion-guide" style="color: #818cf8;">The Complete Guide to Fiat-to-Crypto Exchange Rates</a><br/>
+            • <a href="https://www.coinrates.live/guides/understanding-ethereum-gas-fees" style="color: #818cf8;">Understanding Ethereum Gas Fees (Gwei)</a>
+          </p>
+        </div>
+${SHARED_FOOTER}
       </article>
     `
   },
   {
     slug: 'guides/understanding-ethereum-gas-fees',
+    isArticle: true,
     title: 'Understanding Ethereum Gas Fees (Gwei & EIP-1559) | CoinRates.live',
     desc: 'Learn how Ethereum network gas fees are calculated in Gwei, how EIP-1559 burns base fees, and how to save money on transaction fees.',
     content: `
       <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
-        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="/guides" style="color: #818cf8;">← Back to Guides</a></nav>
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/guides" style="color: #818cf8;">← Back to Guides</a> | <a href="https://www.coinrates.live/" style="color: #818cf8;">Live Converter</a></nav>
         <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Understanding Ethereum Gas Fees (Gwei & EIP-1559)</h1>
         <p style="font-size: 16px;">Every transaction executed on the Ethereum blockchain requires computational fuel called gas. Learn how to track and optimize gas costs before sending transactions.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. What is Gwei?</h2>
         <p>Gwei is a denomination of Ether (ETH), where 1 Gwei equals 0.000000001 ETH (10⁻⁹ ETH). Gas fees are priced in Gwei to keep micro-calculations readable instead of dealing with ten decimal places.</p>
         <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. How EIP-1559 Works</h2>
         <p>Under Ethereum's EIP-1559 upgrade, gas fees consist of a mandatory Base Fee (which is burned by the protocol) and an optional Priority Tip paid to block validators during periods of heavy on-chain congestion.</p>
+        <div style="margin-top: 36px; padding: 20px; background: rgba(15, 23, 42, 0.6); border-radius: 12px; border: 1px solid #334155;">
+          <h3 style="color: #f8fafc; font-size: 18px; margin-bottom: 10px;">Related Guides & Resources</h3>
+          <p style="font-size: 14px; line-height: 1.8;">
+            • <a href="https://www.coinrates.live/guides/how-crypto-exchange-rates-work" style="color: #818cf8;">How Crypto Exchange Rates Are Determined</a><br/>
+            • <a href="https://www.coinrates.live/guides/fiat-to-crypto-conversion-guide" style="color: #818cf8;">The Complete Guide to Fiat-to-Crypto Exchange Rates</a><br/>
+            • <a href="https://www.coinrates.live/guides/crypto-market-cap-vs-volume" style="color: #818cf8;">Market Capitalization vs. 24h Trading Volume</a>
+          </p>
+        </div>
+${SHARED_FOOTER}
       </article>
     `
   }
 ];
-
-function formatRate(num) {
-  if (num < 0.0001) return num.toFixed(8);
-  if (num < 1) return num.toFixed(4);
-  return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
-}
 
 function generatePages() {
   const templatePath = path.join(DIST_DIR, 'index.html');
@@ -218,7 +290,7 @@ function generatePages() {
   }
 
   const baseHtml = fs.readFileSync(templatePath, 'utf-8');
-  const today = '2026-11-06';
+  const today = '2026-11-09';
   const sitemapUrls = [
     `  <url>
     <loc>https://www.coinrates.live/</loc>
@@ -243,6 +315,34 @@ function generatePages() {
     html = html.replace(/<meta property="twitter:url" content=".*?" \/>/i, `<meta property="twitter:url" content="${canonicalUrl}" />`);
     html = html.replace(/<meta property="twitter:title" content=".*?" \/>/i, `<meta property="twitter:title" content="${page.title}" />`);
     html = html.replace(/<meta property="twitter:description" content=".*?" \/>/i, `<meta property="twitter:description" content="${page.desc}" />`);
+
+    // Inject Article Schema for guides
+    if (page.isArticle) {
+      const articleSchema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": page.title,
+        "description": page.desc,
+        "image": "https://www.coinrates.live/producthunt-gallery-1.png",
+        "author": {
+          "@type": "Organization",
+          "name": "CoinRates.live",
+          "url": "https://www.coinrates.live/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CoinRates.live",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.coinrates.live/producthunt-gallery-1.png"
+          }
+        },
+        "datePublished": "2026-11-06T00:00:00Z",
+        "dateModified": "2026-11-09T00:00:00Z",
+        "mainEntityOfPage": canonicalUrl
+      };
+      html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, `<script type="application/ld+json">\n${JSON.stringify(articleSchema, null, 2)}\n</script>`);
+    }
 
     html = html.replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${page.content}</div>`);
 
@@ -270,7 +370,9 @@ function generatePages() {
     const slug = `${pair.fromSym.toLowerCase()}-to-${pair.toSym.toLowerCase()}`;
     const canonicalUrl = `https://www.coinrates.live/convert/${slug}`;
     const pageTitle = `1 ${pair.fromSym} to ${pair.toSym}: Live ${pair.fromName} to ${pair.toName} Rate | CoinRates`;
-    const metaDesc = `Convert 1 ${pair.fromName} (${pair.fromSym}) to ${pair.toName} (${pair.toSym}) at live fiat-to-crypto exchange rates. Real-time chart, zero fees, and conversion calculator on CoinRates.live.`;
+    
+    // Kept under 150 chars to prevent "Meta description too long"
+    const metaDesc = `Convert 1 ${pair.fromName} (${pair.fromSym}) to ${pair.toName} (${pair.toSym}) at live crypto rates. Real-time chart, zero fees, and calculator on CoinRates.live.`;
 
     let html = baseHtml;
 
@@ -381,15 +483,22 @@ function generatePages() {
           </p>
         </section>
 
-        <footer style="margin-top: 32px; border-top: 1px solid #334155; padding-top: 16px;">
-          <p style="font-size: 13px; color: #94a3b8;">
-            Popular Pairs: 
-            <a href="https://www.coinrates.live/convert/btc-to-usd" style="color: #818cf8; margin: 0 4px;">BTC to USD</a> |
-            <a href="https://www.coinrates.live/convert/eth-to-usd" style="color: #818cf8; margin: 0 4px;">ETH to USD</a> |
-            <a href="https://www.coinrates.live/convert/sol-to-usd" style="color: #818cf8; margin: 0 4px;">SOL to USD</a> |
-            <a href="https://www.coinrates.live/convert/doge-to-usd" style="color: #818cf8; margin: 0 4px;">DOGE to USD</a> |
-            <a href="https://www.coinrates.live/convert/btc-to-inr" style="color: #818cf8; margin: 0 4px;">BTC to INR</a>
+        <!-- Internal Links: All Supported Pairs (Eliminates Orphan Pages) -->
+        <section style="margin-top: 32px; padding: 20px; background: rgba(15, 23, 42, 0.4); border-radius: 12px; border: 1px solid #1e293b;">
+          <h2 style="color: #f8fafc; font-size: 16px; margin-bottom: 12px;">All Supported Currency Pairs</h2>
+          <p style="font-size: 13px; line-height: 2;">
+            ${allPairsLinksHtml}
           </p>
+        </section>
+
+        <footer style="margin-top: 32px; border-top: 1px solid #334155; padding-top: 16px; font-size: 13px;">
+          <a href="https://www.coinrates.live/" style="color: #818cf8; margin-right: 14px;">Home</a>
+          <a href="https://www.coinrates.live/about" style="color: #818cf8; margin-right: 14px;">About</a>
+          <a href="https://www.coinrates.live/contact" style="color: #818cf8; margin-right: 14px;">Contact</a>
+          <a href="https://www.coinrates.live/privacy-policy" style="color: #818cf8; margin-right: 14px;">Privacy Policy</a>
+          <a href="https://www.coinrates.live/terms" style="color: #818cf8; margin-right: 14px;">Terms</a>
+          <a href="https://www.coinrates.live/disclaimer" style="color: #818cf8; margin-right: 14px;">Disclaimer</a>
+          <a href="https://www.coinrates.live/guides" style="color: #818cf8;">Guides</a>
         </footer>
       </main>
     `;

@@ -85,7 +85,7 @@ export const Converter: React.FC<ConverterProps> = ({
   };
 
   const handleShare = async () => {
-    const shareUrl = `https://coinrates.live/?from=${fromCurrency.symbol}&to=${toCurrency.symbol}`;
+    const shareUrl = `https://www.coinrates.live/convert/${fromCurrency.symbol.toLowerCase()}-to-${toCurrency.symbol.toLowerCase()}`;
     const shareText = `Convert ${fromAmount} ${fromCurrency.symbol} = ${formatNumber(finalConverted, toCurrency.decimals || 6)} ${toCurrency.symbol} on CoinRates.live: ${shareUrl}`;
     const success = await copyToClipboard(shareText);
     if (success) {
