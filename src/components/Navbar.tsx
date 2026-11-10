@@ -10,15 +10,26 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo, onNavigate }) => {
   const handleNavClick = (path: string, sectionId?: string) => {
-    if (window.location.pathname !== '/' && !window.location.pathname.startsWith('/convert/')) {
+    const isHomePage = window.location.pathname === '/' || window.location.pathname.startsWith('/convert/');
+
+    if (!isHomePage) {
       if (onNavigate) {
         window.history.pushState({}, '', path);
         onNavigate(path);
+        if (sectionId) {
+          setTimeout(() => {
+            onScrollTo(sectionId);
+          }, 100);
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       } else {
-        window.location.href = path;
+        window.location.href = sectionId ? `${path}#${sectionId}` : path;
       }
     } else if (sectionId) {
       onScrollTo(sectionId);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -108,13 +119,13 @@ export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo, onNavigate }
             </span>
           </div>
 
-          <a
-            href="#converter-section"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition shadow-sm"
+          <button
+            onClick={() => handleNavClick('/', 'converter-section')}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition shadow-sm cursor-pointer"
           >
             <Zap className="w-3.5 h-3.5" />
             <span>Convert Free</span>
-          </a>
+          </button>
         </div>
 
       </div>

@@ -100,6 +100,22 @@ export const App: React.FC = () => {
   else if (currentPath === '/guides/understanding-ethereum-gas-fees') staticPageKey = 'guide-gas';
   else if (currentPath.startsWith('/guides')) staticPageKey = 'guides';
 
+  // Handle direct hash navigation (e.g. landing on /guides#converter-section or /#converter-section)
+  useEffect(() => {
+    if (window.location.hash === '#converter-section' || window.location.hash === '#chart-section') {
+      const hash = window.location.hash;
+      const id = hash.replace('#', '');
+      if (staticPageKey) {
+        window.history.replaceState({}, '', '/' + hash);
+        setCurrentPath('/');
+      }
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    }
+  }, [staticPageKey]);
+
   // Sync active conversion pair to URL & update dynamic SEO Title/Meta
   useEffect(() => {
     if (staticPageKey) {
