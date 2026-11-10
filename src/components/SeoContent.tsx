@@ -131,16 +131,16 @@ export const SeoContent: React.FC = () => {
             Order books, bid-ask spreads, and cross-market arbitrage explained.
           </a>
           <a href="/guides/fiat-to-crypto-conversion-guide" className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-emerald-300 hover:text-white hover:border-emerald-500 transition block">
-            <span className="font-semibold block text-white text-sm mb-1">Guide to Fiat-to-Crypto Rates →</span>
-            Foreign exchange benchmarks, settlement rails, and avoiding hidden fees.
+            <span className="font-semibold block text-white text-sm mb-1">Safest Way to Convert Bitcoin to USD →</span>
+            Compare regulated exchanges, OTC liquidation desks, P2P escrow, and real-time fiat rates.
           </a>
           <a href="/guides/crypto-market-cap-vs-volume" className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-amber-300 hover:text-white hover:border-amber-500 transition block">
             <span className="font-semibold block text-white text-sm mb-1">Market Cap vs 24h Volume →</span>
             Why market cap alone can be misleading without verifying liquidity.
           </a>
           <a href="/guides/understanding-ethereum-gas-fees" className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-purple-300 hover:text-white hover:border-purple-500 transition block">
-            <span className="font-semibold block text-white text-sm mb-1">Understanding Ethereum Gas Fees →</span>
-            Gwei denominations, EIP-1559 base fees, and optimizing transaction costs.
+            <span className="font-semibold block text-white text-sm mb-1">What is Gwei? Ethereum Gas Guide →</span>
+            Gwei definitions, EIP-1559 base fees, Gwei to USD reference table, and off-peak fee savings.
           </a>
         </div>
       </div>
