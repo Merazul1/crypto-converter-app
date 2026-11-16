@@ -336,6 +336,85 @@ export const App: React.FC = () => {
                 <ShieldCheck className="w-4 h-4 text-indigo-400" /> Zero Sign-up Required
               </span>
             </div>
+
+            {/* High-Impact Trending Pairs Quick Links (Passes PageRank to SOL, DOGE, ETH/BTC) */}
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
+              <span className="text-slate-400 font-semibold mr-1 flex items-center gap-1">
+                <span>🔥</span> <span className="text-slate-300">Trending Converters:</span>
+              </span>
+              <a
+                href="/convert/sol-to-usd"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectPair('SOL', 'USD');
+                  window.history.pushState({}, '', '/convert/sol-to-usd');
+                  scrollToSection('converter-section');
+                }}
+                className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/10 to-indigo-500/10 border border-purple-500/30 text-purple-300 hover:text-white hover:border-purple-400 font-semibold transition shadow-sm"
+              >
+                SOL to USD
+              </a>
+              <a
+                href="/convert/doge-to-usd"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectPair('DOGE', 'USD');
+                  window.history.pushState({}, '', '/convert/doge-to-usd');
+                  scrollToSection('converter-section');
+                }}
+                className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border border-amber-500/30 text-amber-300 hover:text-white hover:border-amber-400 font-semibold transition shadow-sm"
+              >
+                DOGE to USD
+              </a>
+              <a
+                href="/convert/eth-to-btc"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectPair('ETH', 'BTC');
+                  window.history.pushState({}, '', '/convert/eth-to-btc');
+                  scrollToSection('converter-section');
+                }}
+                className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 font-semibold transition"
+              >
+                ETH to BTC
+              </a>
+              <a
+                href="/convert/btc-to-usd"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectPair('BTC', 'USD');
+                  window.history.pushState({}, '', '/convert/btc-to-usd');
+                  scrollToSection('converter-section');
+                }}
+                className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 font-semibold transition"
+              >
+                BTC to USD
+              </a>
+              <a
+                href="/convert/btc-to-cad"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectPair('BTC', 'CAD');
+                  window.history.pushState({}, '', '/convert/btc-to-cad');
+                  scrollToSection('converter-section');
+                }}
+                className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 font-semibold transition"
+              >
+                BTC to CAD
+              </a>
+              <a
+                href="/convert/eth-to-usd"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectPair('ETH', 'USD');
+                  window.history.pushState({}, '', '/convert/eth-to-usd');
+                  scrollToSection('converter-section');
+                }}
+                className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 font-semibold transition"
+              >
+                ETH to USD
+              </a>
+            </div>
           </section>
 
           {/* PRIMARY CONVERTER SECTION */}

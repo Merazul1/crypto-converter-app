@@ -49,6 +49,46 @@ function formatRate(num) {
   return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
 }
 
+// Dynamic conversion amounts matching real GSC search queries
+function getConversionAmounts(pair) {
+  if (pair.fromSym === 'SOL') {
+    return [0.01, 0.04, 0.1, 0.5, 1, 2, 5, 10, 50, 100, 500];
+  }
+  if (pair.fromSym === 'DOGE' || pair.fromSym === 'SHIB' || pair.fromSym === 'PEPE') {
+    return [1, 10, 50, 100, 250, 500, 1000, 5000, 10000];
+  }
+  if (pair.fromSym === 'BTC') {
+    return [0.001, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10];
+  }
+  if (pair.fromSym === 'ETH') {
+    return [0.01, 0.05, 0.1, 0.5, 1, 2, 3, 5, 10];
+  }
+  return [0.1, 0.5, 1, 2, 5, 10, 25, 50, 100];
+}
+
+// Reverse conversion amounts (Fiat or quote asset to base crypto)
+function getReverseConversionAmounts(pair) {
+  if (['USD', 'EUR', 'GBP', 'CAD', 'AUD'].includes(pair.toSym)) {
+    return [5, 10, 25, 50, 100, 250, 500, 1000, 5000];
+  }
+  if (pair.toSym === 'INR') {
+    return [500, 1000, 2500, 5000, 10000, 25000, 50000, 100000];
+  }
+  if (pair.toSym === 'BTC') {
+    return [0.001, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 1];
+  }
+  return [1, 5, 10, 25, 50, 100, 500];
+}
+
+// Format crypto amounts cleanly without unnecessary trailing decimals
+function formatCryptoAmount(num) {
+  if (num < 0.0001) return num.toFixed(8);
+  if (num < 0.01) return num.toFixed(6);
+  if (num < 1) return num.toFixed(4);
+  if (Number.isInteger(num)) return num.toString();
+  return num.toFixed(2);
+}
+
 // Generate HTML links string for all 25 pairs to eliminate orphan pages
 const allPairsLinksHtml = PAIRS.map(p => {
   const pSlug = `${p.fromSym.toLowerCase()}-to-${p.toSym.toLowerCase()}`;
@@ -481,7 +521,7 @@ function generatePages() {
   }
 
   const baseHtml = fs.readFileSync(templatePath, 'utf-8');
-  const today = '2026-11-10';
+  const today = '2026-11-16';
   const sitemapUrls = [
     `  <url>
     <loc>https://www.coinrates.live/</loc>
@@ -599,6 +639,38 @@ function generatePages() {
     html = html.replace(/<meta property="twitter:title" content=".*?" \/>/i, `<meta property="twitter:title" content="${pageTitle}" />`);
     html = html.replace(/<meta property="twitter:description" content=".*?" \/>/i, `<meta property="twitter:description" content="${metaDesc}" />`);
 
+    const forwardAmounts = getConversionAmounts(pair);
+    const reverseAmounts = getReverseConversionAmounts(pair);
+
+    const forwardRowsHtml = forwardAmounts.map(amt => {
+      const val = pair.rate * amt;
+      return `<tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 12px;">${amt} ${pair.fromSym}</td><td style="padding: 8px 12px; color: #10b981; font-weight: 600;">${formatRate(val)} ${pair.toSym}</td></tr>`;
+    }).join('\n');
+
+    const reverseRowsHtml = reverseAmounts.map(fiatAmt => {
+      const cryptoVal = fiatAmt / pair.rate;
+      return `<tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 12px;">${fiatAmt.toLocaleString()} ${pair.toSym}</td><td style="padding: 8px 12px; color: #818cf8; font-weight: 600;">${formatCryptoAmount(cryptoVal)} ${pair.fromSym}</td></tr>`;
+    }).join('\n');
+
+    const pairFaqs = [
+      {
+        q: `What is 1 ${pair.fromName} (${pair.fromSym}) to ${pair.toName} (${pair.toSym}) today?`,
+        a: `As of today, 1 ${pair.fromName} (${pair.fromSym}) equals approximately ${formatRate(pair.rate)} ${pair.toSym}. Rates update continuously on CoinRates.live every 25 seconds directly from live global order books.`
+      },
+      {
+        q: `How do I convert ${pair.fromSym} to ${pair.toSym} without fees?`,
+        a: `Simply enter your desired ${pair.fromSym} amount into our free live calculator card on CoinRates.live to see the net ${pair.toSym} conversion. There are zero transaction fees, no registration, and no KYC required.`
+      },
+      {
+        q: `What is the 24-hour high and low for ${pair.fromSym}/${pair.toSym}?`,
+        a: `The ${pair.fromSym} to ${pair.toSym} conversion rate fluctuates based on 24-hour global trading volume and order book depth. You can monitor intraday high, low, and candlestick volatility directly on our live interactive chart.`
+      },
+      {
+        q: `Can I convert small fractions like 0.1 or 0.01 ${pair.fromSym} to ${pair.toSym}?`,
+        a: `Yes, CoinRates.live supports fractional conversions down to 8 decimal places, allowing you to instantly calculate micro amounts such as 0.01, 0.04, 0.1, or 0.5 ${pair.fromSym} to ${pair.toSym}.`
+      }
+    ];
+
     const pairSchema = {
       "@context": "https://schema.org",
       "@graph": [
@@ -621,32 +693,14 @@ function generatePages() {
         },
         {
           "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": `How much is 1 ${pair.fromName} (${pair.fromSym}) in ${pair.toName} (${pair.toSym})?`,
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": `As of today, 1 ${pair.fromName} (${pair.fromSym}) is approximately ${formatRate(pair.rate)} ${pair.toSym}. Rates update continuously on CoinRates.live every 25 seconds directly from Binance market order books.`
-              }
-            },
-            {
-              "@type": "Question",
-              "name": `How do I convert ${pair.fromSym} to ${pair.toSym} with 0% fees?`,
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": `Simply enter your desired ${pair.fromSym} quantity into the CoinRates.live converter card to see the exact net ${pair.toSym} value. No registration, sign-up, or hidden charges.`
-              }
-            },
-            {
-              "@type": "Question",
-              "name": `Where do live ${pair.fromSym} to ${pair.toSym} exchange rates come from?`,
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": `Rates stream directly from Binance's public REST ticker feed and global fiat currency benchmarks.`
-              }
+          "mainEntity": pairFaqs.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": f.a
             }
-          ]
+          }))
         }
       ]
     };
@@ -668,24 +722,50 @@ function generatePages() {
           </p>
         </header>
 
-        <section style="margin-top: 28px; background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
-          <h2 style="color: #f8fafc; font-size: 20px; margin-bottom: 12px;">${pair.fromSym} to ${pair.toSym} Quick Conversion Table</h2>
-          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
-            <thead>
-              <tr style="border-bottom: 1px solid #475569; color: #94a3b8;">
-                <th style="padding: 8px 12px;">Amount (${pair.fromSym})</th>
-                <th style="padding: 8px 12px;">Converted Value (${pair.toSym})</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 12px;">1 ${pair.fromSym}</td><td style="padding: 8px 12px; color: #10b981; font-weight: 600;">${formatRate(pair.rate * 1)} ${pair.toSym}</td></tr>
-              <tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 12px;">5 ${pair.fromSym}</td><td style="padding: 8px 12px; color: #10b981; font-weight: 600;">${formatRate(pair.rate * 5)} ${pair.toSym}</td></tr>
-              <tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 12px;">10 ${pair.fromSym}</td><td style="padding: 8px 12px; color: #10b981; font-weight: 600;">${formatRate(pair.rate * 10)} ${pair.toSym}</td></tr>
-              <tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 12px;">25 ${pair.fromSym}</td><td style="padding: 8px 12px; color: #10b981; font-weight: 600;">${formatRate(pair.rate * 25)} ${pair.toSym}</td></tr>
-              <tr style="border-bottom: 1px solid #334155;"><td style="padding: 8px 12px;">50 ${pair.fromSym}</td><td style="padding: 8px 12px; color: #10b981; font-weight: 600;">${formatRate(pair.rate * 50)} ${pair.toSym}</td></tr>
-              <tr><td style="padding: 8px 12px;">100 ${pair.fromSym}</td><td style="padding: 8px 12px; color: #10b981; font-weight: 600;">${formatRate(pair.rate * 100)} ${pair.toSym}</td></tr>
-            </tbody>
-          </table>
+        <!-- Instant Multi-Amount Quick Conversion Tables -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 28px;">
+          <!-- Forward Table -->
+          <section style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+            <h2 style="color: #f8fafc; font-size: 18px; margin-bottom: 12px;">${pair.fromSym} to ${pair.toSym} Quick Conversion Table</h2>
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+              <thead>
+                <tr style="border-bottom: 1px solid #475569; color: #94a3b8;">
+                  <th style="padding: 8px 10px;">Amount (${pair.fromSym})</th>
+                  <th style="padding: 8px 10px;">Value (${pair.toSym})</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${forwardRowsHtml}
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Reverse Table -->
+          <section style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+            <h2 style="color: #f8fafc; font-size: 18px; margin-bottom: 12px;">${pair.toSym} to ${pair.fromSym} Reverse Table</h2>
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+              <thead>
+                <tr style="border-bottom: 1px solid #475569; color: #94a3b8;">
+                  <th style="padding: 8px 10px;">Amount (${pair.toSym})</th>
+                  <th style="padding: 8px 10px;">Value (${pair.fromSym})</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${reverseRowsHtml}
+              </tbody>
+            </table>
+          </section>
+        </div>
+
+        <!-- FAQ Section for Pair -->
+        <section style="margin-top: 28px; background: rgba(15, 23, 42, 0.7); padding: 24px; border-radius: 12px; border: 1px solid #334155;">
+          <h2 style="color: #f8fafc; font-size: 20px; margin-bottom: 16px;">Frequently Asked Questions About ${pair.fromSym} to ${pair.toSym}</h2>
+          ${pairFaqs.map(f => `
+            <div style="margin-bottom: 16px;">
+              <h3 style="color: #818cf8; font-size: 15px; font-weight: bold; margin-bottom: 4px;">${f.q}</h3>
+              <p style="font-size: 14px; margin: 0; color: #cbd5e1;">${f.a}</p>
+            </div>
+          `).join('')}
         </section>
 
         <section style="margin-top: 28px;">
