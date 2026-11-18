@@ -209,6 +209,10 @@ ${SHARED_FOOTER}
           <li><a href="https://www.coinrates.live/guides/fiat-to-crypto-conversion-guide" style="color: #818cf8; font-weight: bold;">The Complete Guide to Fiat-to-Crypto Exchange Rates & Banking Rails</a></li>
           <li><a href="https://www.coinrates.live/guides/crypto-market-cap-vs-volume" style="color: #818cf8; font-weight: bold;">Market Capitalization vs. 24h Trading Volume: What Smart Traders Watch</a></li>
           <li><a href="https://www.coinrates.live/guides/understanding-ethereum-gas-fees" style="color: #818cf8; font-weight: bold;">Understanding Ethereum Gas Fees (Gwei & EIP-1559)</a></li>
+          <li><a href="https://www.coinrates.live/guides/crypto-tax-guide-conversions" style="color: #818cf8; font-weight: bold;">Cryptocurrency Tax Guide: How Conversions & Swaps Are Taxed</a></li>
+          <li><a href="https://www.coinrates.live/guides/cex-vs-dex-exchange-comparison" style="color: #818cf8; font-weight: bold;">Centralized (CEX) vs. Decentralized (DEX) Exchanges: Security & Slippage</a></li>
+          <li><a href="https://www.coinrates.live/guides/understanding-stablecoins-pegs" style="color: #818cf8; font-weight: bold;">Understanding Stablecoins: Fiat-Backed vs. Algorithmic Peg Mechanics</a></li>
+          <li><a href="https://www.coinrates.live/guides/crypto-transaction-fees-and-spreads" style="color: #818cf8; font-weight: bold;">Crypto Transaction Fees: Network Gas, Maker/Taker Fees & Hidden Spreads</a></li>
         </ul>
 ${SHARED_FOOTER}
       </article>
@@ -510,6 +514,137 @@ ${SHARED_FOOTER}
 ${SHARED_FOOTER}
       </article>
     `
+  },
+  {
+    slug: 'guides/crypto-tax-guide-conversions',
+    isArticle: true,
+    title: 'Cryptocurrency Tax Guide: How Conversions & Swaps Are Taxed | CoinRates.live',
+    desc: 'Learn cryptocurrency capital gains tax rules on crypto-to-fiat conversions, token swaps, FIFO vs HIFO cost basis, and tax reporting requirements.',
+    faqs: [
+      {
+        q: 'Do I pay taxes if I convert Bitcoin into a stablecoin like USDC?',
+        a: 'Yes. Stablecoins are treated as cryptocurrency property. Swapping BTC for USDC is considered a property sale at fair market value, triggering a capital gain or loss.'
+      },
+      {
+        q: 'What is the difference between short-term and long-term capital gains in crypto?',
+        a: 'Holding an asset for over 365 days qualifies it for lower long-term capital gains tax rates (0%, 15%, or 20%), whereas assets held for 1 year or less are taxed as ordinary income.'
+      },
+      {
+        q: 'Is transferring crypto between my own hardware wallets taxable?',
+        a: 'No. Transferring digital currency between wallets or exchange accounts that you own is not a taxable disposal event.'
+      }
+    ],
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/guides" style="color: #818cf8;">← Back to Guides</a> | <a href="https://www.coinrates.live/" style="color: #818cf8;">Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Cryptocurrency Tax Guide: How Conversions & Swaps Are Taxed</h1>
+        <p style="font-size: 16px;">In almost all major tax jurisdictions—including the United States (IRS), United Kingdom (HMRC), Canada (CRA), and Australia (ATO)—cryptocurrency is treated as property or a capital asset. Consequently, converting cryptocurrency triggers capital gains tax events.</p>
+        
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Taxable vs. Non-Taxable Cryptocurrency Events</h2>
+        <p>A taxable event occurs when you dispose of your cryptocurrency:</p>
+        <ul style="line-height: 1.8; margin-top: 8px;">
+          <li><strong>Selling crypto for fiat currency (BTC to USD):</strong> Triggers capital gain or loss based on your cost basis.</li>
+          <li><strong>Trading one crypto for another (SOL to USDC):</strong> Taxable disposal based on fair market value at the time of the swap.</li>
+          <li><strong>Spending crypto for goods or services:</strong> Treated as selling property at market value.</li>
+          <li><strong>Wallet Transfers:</strong> Moving funds between personal wallets is completely non-taxable.</li>
+        </ul>
+
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. Cost Basis Accounting: FIFO vs. HIFO</h2>
+        <p>Capital gain is calculated as: <strong>Gain = Selling Price - Cost Basis</strong>. Using HIFO (Highest-In-First-Out) allows you to match sells against your highest-priced purchases, minimizing current tax liabilities.</p>
+${SHARED_FOOTER}
+      </article>
+    `
+  },
+  {
+    slug: 'guides/cex-vs-dex-exchange-comparison',
+    isArticle: true,
+    title: 'Centralized (CEX) vs. Decentralized (DEX) Exchanges: Security & Slippage | CoinRates.live',
+    desc: 'Compare CEX vs DEX security, proof-of-reserves, private key custody, order books vs AMMs, and conversion slippage on CoinRates.live.',
+    faqs: [
+      {
+        q: 'Which is cheaper for converting $1,000 BTC to USD?',
+        a: 'A centralized exchange like Kraken or Coinbase is typically cheaper because it provides native USD order books with low maker fees (0.15%–0.25%) and direct ACH cashouts.'
+      },
+      {
+        q: 'Can DEX trades be censored or frozen?',
+        a: 'True decentralized smart contracts cannot freeze wallets. However, front-end web interfaces may block certain jurisdictions, and centralized stablecoins (USDT/USDC) contain contract-level freeze functions.'
+      }
+    ],
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/guides" style="color: #818cf8;">← Back to Guides</a> | <a href="https://www.coinrates.live/" style="color: #818cf8;">Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Centralized (CEX) vs. Decentralized (DEX) Exchanges: Security & Slippage</h1>
+        <p style="font-size: 16px;">Choosing between a Centralized Exchange (CEX) and a Decentralized Exchange (DEX) involves fundamental tradeoffs between custodial security, fiat liquidity, execution speed, and privacy.</p>
+
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Custody & Private Key Ownership</h2>
+        <p>Centralized platforms hold custody of your private keys ("Not your keys, not your coins"). In contrast, DEXs operate via smart contracts where you retain complete custody of your private keys through Web3 self-custody wallets.</p>
+
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. Fiat On-Ramps vs. Crypto Swaps</h2>
+        <p>CEXs provide direct bank rails (ACH, Fedwire, SEPA) to cash out into fiat currency like USD or EUR. DEXs operate exclusively on-chain for crypto-to-crypto swaps.</p>
+${SHARED_FOOTER}
+      </article>
+    `
+  },
+  {
+    slug: 'guides/understanding-stablecoins-pegs',
+    isArticle: true,
+    title: 'Understanding Stablecoins: Fiat-Backed vs. Algorithmic Peg Mechanics | CoinRates.live',
+    desc: 'How USDT, USDC, and DAI preserve 1:1 USD pegs. Learn about reserve audit attestations, redemption mechanics, and de-pegging risks.',
+    faqs: [
+      {
+        q: 'Can a stablecoin de-peg below $1.00?',
+        a: 'Yes. Stablecoins can trade below $1.00 during banking crises or liquidity panics before arbitrageurs restore parity as reserves are confirmed.'
+      },
+      {
+        q: 'Which stablecoin is safest for long-term holding?',
+        a: 'USDC (issued by Circle) publishes regular reserve attestations from top accounting firms and holds reserves exclusively in short-dated US Treasuries and cash.'
+      }
+    ],
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/guides" style="color: #818cf8;">← Back to Guides</a> | <a href="https://www.coinrates.live/" style="color: #818cf8;">Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Understanding Stablecoins: Fiat-Backed vs. Algorithmic Peg Mechanics</h1>
+        <p style="font-size: 16px;">Stablecoins serve as the essential bridge between volatile cryptocurrency tokens and stable sovereign fiat currencies like the US Dollar.</p>
+
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. Fiat-Collateralized Stablecoins (USDT, USDC)</h2>
+        <p>Backed 1:1 by real US dollar cash deposits, overnight reverse repurchase agreements, and short-term US Treasury bills held in regulated custodial banks.</p>
+
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">2. Crypto-Overcollateralized Stablecoins (DAI)</h2>
+        <p>Minted by locking surplus cryptocurrency into smart contract debt vaults (e.g., $150 of ETH collateral for every $100 of DAI generated) with automated liquidation thresholds.</p>
+${SHARED_FOOTER}
+      </article>
+    `
+  },
+  {
+    slug: 'guides/crypto-transaction-fees-and-spreads',
+    isArticle: true,
+    title: 'Crypto Transaction Fees: Network Gas, Maker/Taker Fees & Hidden Spreads | CoinRates.live',
+    desc: 'How zero-fee crypto apps make money on inflated bid-ask spreads. Calculate your true conversion slippage and save on trading fees.',
+    faqs: [
+      {
+        q: 'How do I avoid hidden spread markups?',
+        a: 'Never use the default "Quick Buy" or "Instant Swap" widget in retail exchanges. Navigate to the exchange’s "Pro" or "Advanced" order book interface and submit limit orders.'
+      },
+      {
+        q: 'Why does CoinRates.live include a fee slider in the converter?',
+        a: 'Our converter includes an optional slippage and fee toggle (0%, 0.1%, 0.5%, 1.0%) so users can estimate real net proceeds after real-world broker fees.'
+      }
+    ],
+    content: `
+      <article style="max-width: 860px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #cbd5e1;">
+        <nav style="font-size: 13px; margin-bottom: 20px;"><a href="https://www.coinrates.live/guides" style="color: #818cf8;">← Back to Guides</a> | <a href="https://www.coinrates.live/" style="color: #818cf8;">Live Converter</a></nav>
+        <h1 style="color: #f8fafc; font-size: 32px; margin-bottom: 16px;">Crypto Transaction Fees: Network Gas, Maker/Taker Fees & Hidden Spreads</h1>
+        <p style="font-size: 16px;">Many consumer crypto apps advertise "0% Commission" or "Zero Fee Conversions". However, hidden spreads, inflated bid-ask markups, and network withdrawal fees can quietly cost 2% to 5% of your transaction.</p>
+
+        <h2 style="color: #f8fafc; font-size: 22px; margin-top: 28px;">1. The 3 Hidden Costs of Crypto Swaps</h2>
+        <ul style="line-height: 1.8; margin-top: 8px;">
+          <li><strong>Exchange Commission:</strong> The stated fee charged by the platform. Maker orders that add liquidity are consistently cheaper than taker orders.</li>
+          <li><strong>Hidden Spread Markup:</strong> The artificial premium embedded in simple "one-click" swap interfaces.</li>
+          <li><strong>Network Gas Fee:</strong> The blockchain miner/validator fee required to transfer funds to cold storage.</li>
+        </ul>
+${SHARED_FOOTER}
+      </article>
+    `
   }
 ];
 
@@ -521,7 +656,7 @@ function generatePages() {
   }
 
   const baseHtml = fs.readFileSync(templatePath, 'utf-8');
-  const today = '2026-11-16';
+  const today = new Date().toISOString().split('T')[0];
   const sitemapUrls = [
     `  <url>
     <loc>https://www.coinrates.live/</loc>
@@ -655,7 +790,7 @@ function generatePages() {
     const pairFaqs = [
       {
         q: `What is 1 ${pair.fromName} (${pair.fromSym}) to ${pair.toName} (${pair.toSym}) today?`,
-        a: `As of today, 1 ${pair.fromName} (${pair.fromSym}) equals approximately ${formatRate(pair.rate)} ${pair.toSym}. Rates update continuously on CoinRates.live every 25 seconds directly from live global order books.`
+        a: `As of today, you can convert 1 ${pair.fromName} (${pair.fromSym}) to ${pair.toName} (${pair.toSym}) at real-time rates updated continuously every 25 seconds from live Binance and global forex order books. Current benchmark is approximately ${formatRate(pair.rate)} ${pair.toSym}.`
       },
       {
         q: `How do I convert ${pair.fromSym} to ${pair.toSym} without fees?`,

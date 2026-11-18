@@ -95,7 +95,7 @@ export const Converter: React.FC<ConverterProps> = ({
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto google-auto-ads-ignore">
       {/* Main Glass Card */}
       <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl relative overflow-hidden">
         

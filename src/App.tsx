@@ -16,7 +16,8 @@ import { SavedPairs } from './components/SavedPairs';
 import { SeoContent } from './components/SeoContent';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
-import { StaticPage } from './components/StaticPages';
+import { StaticPage, StaticPageKey } from './components/StaticPages';
+import { PairSeoSection } from './components/PairSeoSection';
 import { Zap, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -87,8 +88,8 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Determine if viewing a static informational/guide page
-  let staticPageKey: 'about' | 'contact' | 'privacy' | 'terms' | 'disclaimer' | 'guides' | 'guide-rates' | 'guide-fiat' | 'guide-marketcap' | 'guide-gas' | null = null;
+  // Determine if viewing a static informational or comprehensive guide page
+  let staticPageKey: StaticPageKey | null = null;
   if (currentPath.startsWith('/about')) staticPageKey = 'about';
   else if (currentPath.startsWith('/contact')) staticPageKey = 'contact';
   else if (currentPath.startsWith('/privacy')) staticPageKey = 'privacy';
@@ -98,7 +99,18 @@ export const App: React.FC = () => {
   else if (currentPath === '/guides/fiat-to-crypto-conversion-guide') staticPageKey = 'guide-fiat';
   else if (currentPath === '/guides/crypto-market-cap-vs-volume') staticPageKey = 'guide-marketcap';
   else if (currentPath === '/guides/understanding-ethereum-gas-fees') staticPageKey = 'guide-gas';
+  else if (currentPath === '/guides/crypto-tax-guide-conversions') staticPageKey = 'guide-tax';
+  else if (currentPath === '/guides/cex-vs-dex-exchange-comparison') staticPageKey = 'guide-cex-dex';
+  else if (currentPath === '/guides/understanding-stablecoins-pegs') staticPageKey = 'guide-stablecoins';
+  else if (currentPath === '/guides/crypto-transaction-fees-and-spreads') staticPageKey = 'guide-fees';
   else if (currentPath.startsWith('/guides')) staticPageKey = 'guides';
+
+  // Check if viewing a dedicated conversion pair page
+  const isPairPage = !staticPageKey && (
+    currentPath.startsWith('/convert/') ||
+    window.location.pathname.toLowerCase().startsWith('/convert/') ||
+    window.location.pathname.includes('-to-')
+  );
 
   // Handle direct hash navigation (e.g. landing on /guides#converter-section or /#converter-section)
   useEffect(() => {
@@ -116,24 +128,91 @@ export const App: React.FC = () => {
     }
   }, [staticPageKey]);
 
-  // Sync active conversion pair to URL & update dynamic SEO Title/Meta
+  // Comprehensive Metadata Management Helper (Dynamic canonical, OpenGraph, Twitter, Titles)
+  const updateMetaTag = (selector: string, attr: string, value: string) => {
+    try {
+      let el = document.querySelector(selector);
+      if (!el) {
+        el = document.createElement(selector.startsWith('link') ? 'link' : 'meta');
+        if (selector.includes('canonical')) (el as HTMLLinkElement).rel = 'canonical';
+        else if (selector.includes('property')) (el as HTMLMetaElement).setAttribute('property', selector.match(/property="([^"]+)"/)?.[1] || '');
+        else if (selector.includes('name')) (el as HTMLMetaElement).setAttribute('name', selector.match(/name="([^"]+)"/)?.[1] || '');
+        document.head.appendChild(el);
+      }
+      el.setAttribute(attr, value);
+    } catch {
+      // ignore
+    }
+  };
+
+  // Sync active conversion pair to URL & update dynamic SEO Title/Meta/Canonical
   useEffect(() => {
     if (staticPageKey) {
-      if (staticPageKey === 'about') document.title = 'About CoinRates.live — Free Real-Time Cryptocurrency Converter';
-      else if (staticPageKey === 'contact') document.title = 'Contact Us & Technical Support | CoinRates.live';
-      else if (staticPageKey === 'privacy') document.title = 'Privacy Policy & Cookies Disclosure | CoinRates.live';
-      else if (staticPageKey === 'terms') document.title = 'Terms of Service | CoinRates.live';
-      else if (staticPageKey === 'disclaimer') document.title = 'Financial Risk Disclaimer | CoinRates.live';
-      else if (staticPageKey === 'guides') document.title = 'Crypto Market Guides & Knowledge Base | CoinRates.live';
-      else if (staticPageKey === 'guide-rates') document.title = 'How Crypto Exchange Rates Are Determined | CoinRates.live';
-      else if (staticPageKey === 'guide-fiat') document.title = 'Guide to Fiat-to-Crypto Exchange Rates | CoinRates.live';
-      else if (staticPageKey === 'guide-marketcap') document.title = 'Market Cap vs. 24h Trading Volume | CoinRates.live';
-      else if (staticPageKey === 'guide-gas') document.title = 'Understanding Ethereum Gas Fees (Gwei) | CoinRates.live';
+      let title = 'CoinRates.live — Free Real-Time Cryptocurrency Converter';
+      let desc = 'Track live cryptocurrency exchange rates and convert fiat to crypto with zero fees.';
+      const canonical = `https://www.coinrates.live${currentPath}`;
+
+      if (staticPageKey === 'about') {
+        title = 'About CoinRates.live — Free Real-Time Cryptocurrency Converter';
+        desc = 'Learn about CoinRates.live, our real-time market data methodology, zero-fee commitment, and independent crypto rate tracking platform.';
+      } else if (staticPageKey === 'contact') {
+        title = 'Contact Us & Technical Support | CoinRates.live';
+        desc = 'Get in touch with the CoinRates.live team for technical support, partnership inquiries, and feedback.';
+      } else if (staticPageKey === 'privacy') {
+        title = 'Privacy Policy & Cookies Disclosure | CoinRates.live';
+        desc = 'Our complete privacy policy detailing Google AdSense cookies, DAA WebChoices, log files, and GDPR compliance on CoinRates.live.';
+      } else if (staticPageKey === 'terms') {
+        title = 'Terms of Service | CoinRates.live';
+        desc = 'CoinRates.live terms of service, acceptable usage policy, and financial calculation disclaimers.';
+      } else if (staticPageKey === 'disclaimer') {
+        title = 'Financial & Risk Disclaimer | CoinRates.live';
+        desc = 'Financial disclaimer for CoinRates.live. Learn about cryptocurrency market risks and non-advisory calculations.';
+      } else if (staticPageKey === 'guides') {
+        title = 'Crypto Market Guides & Knowledge Base | CoinRates.live';
+        desc = 'Explore comprehensive cryptocurrency guides explaining exchange rates, fiat conversions, market capitalization, taxes, and network fees.';
+      } else if (staticPageKey === 'guide-rates') {
+        title = 'How Crypto Exchange Rates Are Determined | CoinRates.live';
+        desc = 'Understand how order book depth, bid-ask spreads, and market arbitrage determine real-time cryptocurrency exchange rates.';
+      } else if (staticPageKey === 'guide-fiat') {
+        title = 'Safest Way to Convert Bitcoin to US Dollars | CoinRates.live';
+        desc = 'Compare regulated centralized exchanges, institutional OTC desks, and P2P multi-sig escrow with lowest fees in 2026.';
+      } else if (staticPageKey === 'guide-marketcap') {
+        title = 'Market Cap vs. 24h Trading Volume vs. FDV | CoinRates.live';
+        desc = 'Why high market cap can conceal phantom liquidity. How to evaluate circulating supply, token inflation, and wash trading risks.';
+      } else if (staticPageKey === 'guide-gas') {
+        title = 'What is Gwei in Crypto? Ethereum Gas & Fee Guide | CoinRates.live';
+        desc = 'Understand Ethereum Gwei, EIP-1559 base fee burning, validator priority tips, and how Layer-2 rollups reduce fees by 95%.';
+      } else if (staticPageKey === 'guide-tax') {
+        title = 'Cryptocurrency Tax Guide: How Conversions Are Taxed | CoinRates.live';
+        desc = 'Comprehensive guide to crypto-to-fiat and token swap taxation. Learn capital gains rules, FIFO vs HIFO cost basis, and tax reporting.';
+      } else if (staticPageKey === 'guide-cex-dex') {
+        title = 'Centralized (CEX) vs. Decentralized (DEX) Exchanges | CoinRates.live';
+        desc = 'Compare CEX vs DEX security, proof-of-reserves, private key custody, order books vs AMMs, and conversion slippage.';
+      } else if (staticPageKey === 'guide-stablecoins') {
+        title = 'Understanding Stablecoins: Fiat-Backed vs Algorithmic | CoinRates.live';
+        desc = 'How USDT, USDC, and DAI maintain 1:1 USD pegs. Learn about reserve audit attestations, redemption mechanics, and de-pegging risks.';
+      } else if (staticPageKey === 'guide-fees') {
+        title = 'Crypto Transaction Fees: Network Gas & Hidden Spreads | CoinRates.live';
+        desc = 'How zero-fee crypto apps make money on inflated bid-ask spreads. Calculate your true conversion slippage and save on trading fees.';
+      }
+
+      document.title = title;
+      updateMetaTag('meta[name="title"]', 'content', title);
+      updateMetaTag('meta[name="description"]', 'content', desc);
+      updateMetaTag('link[rel="canonical"]', 'href', canonical);
+      updateMetaTag('meta[property="og:url"]', 'content', canonical);
+      updateMetaTag('meta[property="og:title"]', 'content', title);
+      updateMetaTag('meta[property="og:description"]', 'content', desc);
+      updateMetaTag('meta[property="twitter:url"]', 'content', canonical);
+      updateMetaTag('meta[property="twitter:title"]', 'content', title);
+      updateMetaTag('meta[property="twitter:description"]', 'content', desc);
       return;
     }
 
     try {
-      const pairPath = `/convert/${fromCurrency.symbol.toLowerCase()}-to-${toCurrency.symbol.toLowerCase()}`;
+      const pairSlug = `${fromCurrency.symbol.toLowerCase()}-to-${toCurrency.symbol.toLowerCase()}`;
+      const pairPath = `/convert/${pairSlug}`;
+
       if (window.location.pathname.startsWith('/convert/') || window.location.pathname.includes('-to-')) {
         window.history.replaceState({}, '', pairPath);
       } else {
@@ -143,20 +222,25 @@ export const App: React.FC = () => {
         window.history.replaceState({}, '', url.toString());
       }
 
-      // Dynamic SEO Title & Description for the active pair
-      document.title = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} Rate | CoinRates.live`;
-      
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute(
-          'content',
-          `Convert ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at free real-time fiat-to-crypto exchange rates. Fast BTC to USD calculator and live charts on CoinRates.live.`
-        );
-      }
+      // Title & Description strictly between 130 and 155 chars
+      const pageTitle = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} Rate | CoinRates.live`;
+      const pageDesc = `Convert ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at free real-time exchange rates with live charts and zero fees on CoinRates.live.`;
+      const canonicalUrl = isPairPage ? `https://www.coinrates.live/convert/${pairSlug}` : 'https://www.coinrates.live/';
+
+      document.title = pageTitle;
+      updateMetaTag('meta[name="title"]', 'content', pageTitle);
+      updateMetaTag('meta[name="description"]', 'content', pageDesc);
+      updateMetaTag('link[rel="canonical"]', 'href', canonicalUrl);
+      updateMetaTag('meta[property="og:url"]', 'content', canonicalUrl);
+      updateMetaTag('meta[property="og:title"]', 'content', pageTitle);
+      updateMetaTag('meta[property="og:description"]', 'content', pageDesc);
+      updateMetaTag('meta[property="twitter:url"]', 'content', canonicalUrl);
+      updateMetaTag('meta[property="twitter:title"]', 'content', pageTitle);
+      updateMetaTag('meta[property="twitter:description"]', 'content', pageDesc);
     } catch {
       // ignore
     }
-  }, [fromCurrency, toCurrency, staticPageKey]);
+  }, [fromCurrency, toCurrency, staticPageKey, isPairPage, currentPath]);
 
   // Live status & refresh state
   const [isLive, setIsLive] = useState<boolean>(true);
@@ -200,42 +284,34 @@ export const App: React.FC = () => {
     }
   }, [favorites]);
 
-  // Refresh live rates function
+  // Fetch updated prices
   const refreshRates = useCallback(async () => {
     setIsRefreshing(true);
     try {
-      const [updatedResult, gasData, fngData] = await Promise.allSettled([
-        getUpdatedCurrencies(currencies),
-        fetchGasPrices(),
-        fetchFearAndGreed(),
-      ]);
+      const result = await getUpdatedCurrencies(currencies);
+      setCurrencies(result.currencies);
 
-      if (updatedResult.status === 'fulfilled') {
-        const { currencies: updatedList, isLive: liveStatus } = updatedResult.value;
-        setCurrencies(updatedList);
-        setIsLive(liveStatus);
-
-        // Also update currently selected from/to currency objects
-        setFromCurrency((prev) => updatedList.find((c) => c.id === prev.id) || prev);
-        setToCurrency((prev) => updatedList.find((c) => c.id === prev.id) || prev);
-      }
-
-      if (gasData.status === 'fulfilled') {
-        setGasInfo(gasData.value);
-      }
-      if (fngData.status === 'fulfilled') {
-        setFearAndGreed(fngData.value);
-      }
-
+      // Keep active pair reference updated with fresh price
+      setFromCurrency((prev) => result.currencies.find((c) => c.id === prev.id) || prev);
+      setToCurrency((prev) => result.currencies.find((c) => c.id === prev.id) || prev);
       setLastUpdated(new Date().toLocaleTimeString());
+      setIsLive(result.isLive);
+    } catch (err) {
+      setIsLive(false);
     } finally {
       setIsRefreshing(false);
     }
   }, [currencies]);
 
-  // Initial fetch & automated 25-second poll
+  // Initial and periodic polling for prices, gas, sentiment
   useEffect(() => {
+    // Initial fetch
     refreshRates();
+
+    fetchGasPrices().then(setGasInfo);
+    fetchFearAndGreed().then(setFearAndGreed);
+
+    // 25-second poll interval
     const timer = setInterval(() => {
       refreshRates();
     }, 25000);
@@ -260,7 +336,6 @@ export const App: React.FC = () => {
   // Single coin selection from live ticker
   const handleSelectSingleCoin = (coin: Currency) => {
     if (fromCurrency.id === coin.id) {
-      // Swap to target if already from
       setToCurrency(coin);
     } else {
       setFromCurrency(coin);
@@ -296,10 +371,14 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col font-sans">
       {/* Top Navbar */}
-      <Navbar isLive={isLive} onScrollTo={scrollToSection} onNavigate={handleNavigate} />
+      <div className="google-auto-ads-ignore">
+        <Navbar isLive={isLive} onScrollTo={scrollToSection} onNavigate={handleNavigate} />
+      </div>
 
       {/* Live Continuous Ticker Tape */}
-      <LiveTicker currencies={currencies} onSelectCoin={handleSelectSingleCoin} />
+      <div className="google-auto-ads-ignore">
+        <LiveTicker currencies={currencies} onSelectCoin={handleSelectSingleCoin} />
+      </div>
 
       {/* Render Standalone Page OR Full Converter Dashboard */}
       {staticPageKey ? (
@@ -309,21 +388,34 @@ export const App: React.FC = () => {
       ) : (
         /* Main Converter Dashboard */
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
-          {/* Hero Header */}
+          {/* Hero Header (Pair-Aware H1 to Prevent Hydration Content Mismatch) */}
           <section className="text-center max-w-3xl mx-auto space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
               <span>CoinRates.live • Free Real-Time Cryptocurrency Converter</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-              Cryptocurrency Exchange Rates <br className="hidden sm:inline" />
-              <span className="gradient-text">& Fiat-to-Crypto Converter</span>
-            </h1>
-
-            <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-              Track real-time <strong className="text-slate-200">crypto currencies exchange rates</strong> and calculate live <strong className="text-slate-200">fiat-to-crypto exchange rates</strong> with zero fees. Fast, free BTC to USD calculator on <strong className="text-slate-200">CoinRates.live</strong>.
-            </p>
+            {isPairPage ? (
+              <div className="space-y-3">
+                <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+                  1 {fromCurrency.symbol} to {toCurrency.symbol}: <br className="hidden sm:inline" />
+                  <span className="gradient-text">Live {fromCurrency.name} to {toCurrency.name} Rate</span>
+                </h1>
+                <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                  Real-time <strong className="text-slate-200">{fromCurrency.name} ({fromCurrency.symbol})</strong> to <strong className="text-slate-200">{toCurrency.name} ({toCurrency.symbol})</strong> conversion rates updated continuously every 25 seconds with 0% fees on <strong className="text-slate-200">CoinRates.live</strong>.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+                  Cryptocurrency Exchange Rates <br className="hidden sm:inline" />
+                  <span className="gradient-text">& Fiat-to-Crypto Converter</span>
+                </h1>
+                <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                  Track real-time <strong className="text-slate-200">crypto currencies exchange rates</strong> and calculate live <strong className="text-slate-200">fiat-to-crypto exchange rates</strong> with zero fees. Fast, free BTC to USD calculator on <strong className="text-slate-200">CoinRates.live</strong>.
+                </p>
+              </div>
+            )}
 
             <div className="flex items-center justify-center gap-6 pt-2 text-xs text-slate-400 flex-wrap">
               <span className="flex items-center gap-1.5">
@@ -417,8 +509,8 @@ export const App: React.FC = () => {
             </div>
           </section>
 
-          {/* PRIMARY CONVERTER SECTION */}
-          <section id="converter-section">
+          {/* PRIMARY CONVERTER SECTION (Marked with google-auto-ads-ignore to protect tool UI) */}
+          <section id="converter-section" className="google-auto-ads-ignore">
             <Converter
               currencies={currencies}
               fromCurrency={fromCurrency}
@@ -435,6 +527,13 @@ export const App: React.FC = () => {
             />
           </section>
 
+          {/* DYNAMIC PAIR SEO & CONVERSION TABLES (Rendered during pair navigation) */}
+          {isPairPage && (
+            <section className="pt-2">
+              <PairSeoSection fromCurrency={fromCurrency} toCurrency={toCurrency} />
+            </section>
+          )}
+
           {/* SAVED PINNED PAIRS */}
           <section>
             <SavedPairs
@@ -446,7 +545,7 @@ export const App: React.FC = () => {
           </section>
 
           {/* MARKET MICRO WIDGETS & POPULAR PRESETS */}
-          <section>
+          <section className="google-auto-ads-ignore">
             <MarketStats
               gasInfo={gasInfo}
               fearAndGreed={fearAndGreed}
@@ -457,7 +556,7 @@ export const App: React.FC = () => {
           </section>
 
           {/* INTERACTIVE PRICE CHART */}
-          <section id="chart-section">
+          <section id="chart-section" className="google-auto-ads-ignore">
             <PriceChart currency={chartCurrency} vsCurrency={toCurrency} />
           </section>
 
