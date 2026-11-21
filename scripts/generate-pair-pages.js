@@ -395,7 +395,11 @@ function generatePages() {
       },
       {
         q: `Can I convert small fractions like 0.1 or 0.01 ${pair.fromSym} to ${pair.toSym}?`,
-        a: `Yes, CoinRates.live supports fractional conversions down to 8 decimal places, allowing you to instantly calculate micro amounts such as 0.01, 0.04, 0.1, or 0.5 ${pair.fromSym} to ${pair.toSym}.`
+        a: `Yes, CoinRates.live supports fractional conversions down to 8 decimal places, allowing you to instantly calculate micro amounts such as 0.01, 0.02, 0.04, 0.1, or 0.5 ${pair.fromSym} to ${pair.toSym}.`
+      },
+      {
+        q: `Can I convert larger amounts like 5, 10, 50, or 100 ${pair.fromSym} to ${pair.toSym}?`,
+        a: `Yes, you can calculate larger multi-unit conversions (e.g. 2, 3, 4, 5, 10, 50, or 100 ${pair.fromSym} to ${pair.toSym}) using our instant quick-conversion table with real-time order book depth pricing.`
       }
     ];
 
