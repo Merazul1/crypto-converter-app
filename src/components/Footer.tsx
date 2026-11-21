@@ -58,10 +58,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 Educational Guides
               </h4>
               <ul className="space-y-2">
-                <li><a href="/guides/how-crypto-exchange-rates-work" onClick={(e) => handleLink(e, '/guides/how-crypto-exchange-rates-work')} className="hover:text-indigo-400 transition">Order Books & Bid-Ask Spreads</a></li>
-                <li><a href="/guides/fiat-to-crypto-conversion-guide" onClick={(e) => handleLink(e, '/guides/fiat-to-crypto-conversion-guide')} className="hover:text-indigo-400 transition">Fiat-to-Crypto Exchange Guide</a></li>
-                <li><a href="/guides/crypto-market-cap-vs-volume" onClick={(e) => handleLink(e, '/guides/crypto-market-cap-vs-volume')} className="hover:text-indigo-400 transition">Market Cap vs 24h Volume</a></li>
-                <li><a href="/disclaimer" onClick={(e) => handleLink(e, '/disclaimer')} className="hover:text-indigo-400 transition">Financial Risk Disclaimer</a></li>
+                <li><a href="/guides/how-crypto-exchange-rates-work" onClick={(e) => handleLink(e, '/guides/how-crypto-exchange-rates-work')} className="hover:text-indigo-400 transition">How Rates Are Determined</a></li>
+                <li><a href="/guides/fiat-to-crypto-conversion-guide" onClick={(e) => handleLink(e, '/guides/fiat-to-crypto-conversion-guide')} className="hover:text-indigo-400 transition">Safest BTC to USD Off-Ramps</a></li>
+                <li><a href="/guides/crypto-market-cap-vs-volume" onClick={(e) => handleLink(e, '/guides/crypto-market-cap-vs-volume')} className="hover:text-indigo-400 transition">Market Cap vs Volume</a></li>
+                <li><a href="/guides/understanding-ethereum-gas-fees" onClick={(e) => handleLink(e, '/guides/understanding-ethereum-gas-fees')} className="hover:text-indigo-400 transition">Ethereum Gas Fees &amp; Gwei</a></li>
+                <li><a href="/guides/crypto-tax-guide-conversions" onClick={(e) => handleLink(e, '/guides/crypto-tax-guide-conversions')} className="hover:text-indigo-400 transition">Crypto Tax on Conversions</a></li>
+                <li><a href="/guides/cex-vs-dex-exchange-comparison" onClick={(e) => handleLink(e, '/guides/cex-vs-dex-exchange-comparison')} className="hover:text-indigo-400 transition">CEX vs DEX Comparison</a></li>
+                <li><a href="/guides/understanding-stablecoins-pegs" onClick={(e) => handleLink(e, '/guides/understanding-stablecoins-pegs')} className="hover:text-indigo-400 transition">Stablecoins &amp; Peg Mechanics</a></li>
+                <li><a href="/guides/crypto-transaction-fees-and-spreads" onClick={(e) => handleLink(e, '/guides/crypto-transaction-fees-and-spreads')} className="hover:text-indigo-400 transition">Trading Fees &amp; Spreads</a></li>
               </ul>
             </div>
 

@@ -606,6 +606,59 @@ export const StaticPage: React.FC<StaticPageProps> = ({ page, onNavigate }) => {
             When a trader swaps Token A for Token B, the pool's balance shifts, automatically raising the price of Token B to balance the equation.
           </p>
 
+          <h2 className="text-xl font-bold text-white pt-2">4. Market Depth, Order Book Slippage & Execution</h2>
+          <p className="text-sm text-slate-400 leading-relaxed">
+            Market depth measures the cumulative capital sitting at each price level. In highly liquid pairs like BTC/USD, order book depth exceeds tens of millions within 1% of spot. When order size exceeds immediate top-of-book liquidity, the order sweeps higher price levels, resulting in slippage:
+          </p>
+          <div className="p-3.5 rounded-xl bg-slate-950 font-mono text-xs text-indigo-300 border border-slate-800 max-w-lg">
+            Slippage (%) = |(Average Executed Price - Initial Midpoint) / Initial Midpoint| × 100
+          </div>
+
+          <h2 className="text-xl font-bold text-white pt-2">5. Liquidity Tier Comparison Across Digital Assets</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border border-slate-800 rounded-xl overflow-hidden">
+              <thead className="bg-slate-900/80 text-slate-300 border-b border-slate-800">
+                <tr>
+                  <th className="p-3 font-semibold">Tier</th>
+                  <th className="p-3 font-semibold">Assets</th>
+                  <th className="p-3 font-semibold">Typical Spread</th>
+                  <th className="p-3 font-semibold">24h Depth</th>
+                  <th className="p-3 font-semibold">Slippage Risk</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60 text-slate-400">
+                <tr>
+                  <td className="p-3 font-bold text-cyan-400">Tier 1 (Mega-Cap)</td>
+                  <td className="p-3">BTC, ETH, SOL</td>
+                  <td className="p-3 text-emerald-400">&lt; 0.02% ($0.50-$2)</td>
+                  <td className="p-3">$1B - $30B+ Daily</td>
+                  <td className="p-3 text-emerald-400">Virtually Zero</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-bold text-indigo-400">Tier 2 (Large-Cap)</td>
+                  <td className="p-3">BNB, XRP, DOGE</td>
+                  <td className="p-3 text-emerald-400">0.05% - 0.15%</td>
+                  <td className="p-3">$200M - $1B Daily</td>
+                  <td className="p-3 text-emerald-400">Low on &lt;$50k</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-bold text-amber-400">Tier 3 (Mid-Cap)</td>
+                  <td className="p-3">AVAX, LINK, SUI</td>
+                  <td className="p-3 text-amber-400">0.20% - 0.50%</td>
+                  <td className="p-3">$20M - $200M Daily</td>
+                  <td className="p-3 text-amber-400">Moderate</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-bold text-rose-400">Tier 4 (Micro-Cap)</td>
+                  <td className="p-3">PEPE, Meme coins</td>
+                  <td className="p-3 text-rose-400">1.00% - 3.50%+</td>
+                  <td className="p-3">&lt; $20M Daily</td>
+                  <td className="p-3 text-rose-400">Severe</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <FaqAccordion items={[
             {
               q: 'Why do crypto exchange rates differ slightly across apps?',

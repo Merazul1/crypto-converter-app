@@ -13,20 +13,22 @@ export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo, onNavigate }
     const isHomePage = window.location.pathname === '/' || window.location.pathname.startsWith('/convert/');
 
     if (!isHomePage) {
+      const targetUrl = sectionId ? `/#${sectionId}` : path;
       if (onNavigate) {
-        window.history.pushState({}, '', path);
-        onNavigate(path);
+        window.history.pushState({}, '', targetUrl);
+        onNavigate('/');
         if (sectionId) {
           setTimeout(() => {
             onScrollTo(sectionId);
-          }, 100);
+          }, 250);
         } else {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       } else {
-        window.location.href = sectionId ? `${path}#${sectionId}` : path;
+        window.location.href = targetUrl;
       }
     } else if (sectionId) {
+      window.history.replaceState({}, '', `/#${sectionId}`);
       onScrollTo(sectionId);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });

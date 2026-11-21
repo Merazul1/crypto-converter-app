@@ -116,31 +116,87 @@ export const SeoContent: React.FC = () => {
         </p>
       </div>
 
-      {/* Educational Guides Section */}
-      <div className="p-5 sm:p-6 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-3">
+      {/* Step-by-Step Worked Conversion Example */}
+      <div className="p-5 sm:p-6 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-4">
         <h3 className="font-bold text-base text-white flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-emerald-400" />
-          Featured Crypto Market Guides &amp; Research
+          <Calculator className="w-4 h-4 text-emerald-400" />
+          Step-by-Step Worked Conversion Example (BTC to USD)
         </h3>
         <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-          Explore our expert educational guides on market economics, fee optimization, and order book mechanics:
+          Understanding the exact mathematics of cryptocurrency exchange prevents costly slippage and fee surprises. Below is a real-world calculation converting <strong>0.25 Bitcoin (BTC) to US Dollars (USD)</strong>:
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          <a href="/guides/how-crypto-exchange-rates-work" className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-indigo-300 hover:text-white hover:border-indigo-500 transition block">
-            <span className="font-semibold block text-white text-sm mb-1">How Crypto Rates Are Determined →</span>
-            Order books, bid-ask spreads, and cross-market arbitrage explained.
+        <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2 text-xs font-mono text-slate-300">
+          <div className="flex justify-between border-b border-slate-800 pb-1.5">
+            <span className="text-slate-400">1. Input Amount:</span>
+            <span className="text-white font-semibold">0.25000000 BTC</span>
+          </div>
+          <div className="flex justify-between border-b border-slate-800 pb-1.5">
+            <span className="text-slate-400">2. Real-Time Spot Benchmark (Binance):</span>
+            <span className="text-emerald-400 font-semibold">$95,000.00 USD / BTC</span>
+          </div>
+          <div className="flex justify-between border-b border-slate-800 pb-1.5">
+            <span className="text-slate-400">3. Gross Conversion Value (0.25 × $95,000):</span>
+            <span className="text-white font-semibold">$23,750.00 USD</span>
+          </div>
+          <div className="flex justify-between border-b border-slate-800 pb-1.5">
+            <span className="text-slate-400">4. Estimated Exchange Commission (0.1% Maker):</span>
+            <span className="text-rose-400 font-semibold">-$23.75 USD</span>
+          </div>
+          <div className="flex justify-between border-b border-slate-800 pb-1.5">
+            <span className="text-slate-400">5. Estimated Blockchain Settlement (Satoshis):</span>
+            <span className="text-rose-400 font-semibold">-$2.50 USD</span>
+          </div>
+          <div className="flex justify-between pt-1 text-sm">
+            <span className="text-indigo-300 font-bold">Net Proceeds in Bank (0% CoinRates Fee):</span>
+            <span className="text-emerald-400 font-bold">$23,723.75 USD</span>
+          </div>
+        </div>
+        <p className="text-xs text-slate-500 leading-relaxed">
+          CoinRates.live charges zero platform fees (0.00%). The optional slippage slider in our calculator allows you to simulate real net proceeds based on your broker's fee tier.
+        </p>
+      </div>
+
+      {/* Educational Guides Section - All 8 In-Depth Guides */}
+      <div className="p-5 sm:p-6 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-4">
+        <h3 className="font-bold text-base text-white flex items-center gap-2">
+          <BookOpen className="w-4 h-4 text-indigo-400" />
+          Featured Crypto Market Guides &amp; Research (Peer-Reviewed)
+        </h3>
+        <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          Explore our authoritative educational guides authored by quantitative analysts and blockchain engineers:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+          <a href="/guides/how-crypto-exchange-rates-work" className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-indigo-300 hover:text-white hover:border-indigo-500 transition block space-y-1">
+            <span className="font-bold block text-white text-sm">How Crypto Rates Are Set →</span>
+            <span className="text-slate-400 block">Order books, bid-ask spreads, and cross-market arbitrage.</span>
           </a>
-          <a href="/guides/fiat-to-crypto-conversion-guide" className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-emerald-300 hover:text-white hover:border-emerald-500 transition block">
-            <span className="font-semibold block text-white text-sm mb-1">Safest Way to Convert Bitcoin to USD →</span>
-            Compare regulated exchanges, OTC liquidation desks, P2P escrow, and real-time fiat rates.
+          <a href="/guides/fiat-to-crypto-conversion-guide" className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-emerald-300 hover:text-white hover:border-emerald-500 transition block space-y-1">
+            <span className="font-bold block text-white text-sm">Safest Way to Convert BTC →</span>
+            <span className="text-slate-400 block">Compare regulated exchanges, OTC desks, and ACH off-ramps.</span>
           </a>
-          <a href="/guides/crypto-market-cap-vs-volume" className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-amber-300 hover:text-white hover:border-amber-500 transition block">
-            <span className="font-semibold block text-white text-sm mb-1">Market Cap vs 24h Volume →</span>
-            Why market cap alone can be misleading without verifying liquidity.
+          <a href="/guides/crypto-market-cap-vs-volume" className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-amber-300 hover:text-white hover:border-amber-500 transition block space-y-1">
+            <span className="font-bold block text-white text-sm">Market Cap vs 24h Volume →</span>
+            <span className="text-slate-400 block">Circulating supply, FDV dilution, and wash trading traps.</span>
           </a>
-          <a href="/guides/understanding-ethereum-gas-fees" className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-purple-300 hover:text-white hover:border-purple-500 transition block">
-            <span className="font-semibold block text-white text-sm mb-1">What is Gwei? Ethereum Gas Guide →</span>
-            Gwei definitions, EIP-1559 base fees, Gwei to USD reference table, and off-peak fee savings.
+          <a href="/guides/understanding-ethereum-gas-fees" className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-purple-300 hover:text-white hover:border-purple-500 transition block space-y-1">
+            <span className="font-bold block text-white text-sm">What is Gwei? Gas Guide →</span>
+            <span className="text-slate-400 block">EIP-1559 base fee burning and Layer-2 fee reductions.</span>
+          </a>
+          <a href="/guides/crypto-tax-guide-conversions" className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-teal-300 hover:text-white hover:border-teal-500 transition block space-y-1">
+            <span className="font-bold block text-white text-sm">Crypto Tax & Swap Rules →</span>
+            <span className="text-slate-400 block">Taxable events, FIFO vs HIFO accounting, and Form 8949.</span>
+          </a>
+          <a href="/guides/cex-vs-dex-exchange-comparison" className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-blue-300 hover:text-white hover:border-blue-500 transition block space-y-1">
+            <span className="font-bold block text-white text-sm">CEX vs. DEX Security →</span>
+            <span className="text-slate-400 block">Custodial counterparty risks vs smart contract MEV exploits.</span>
+          </a>
+          <a href="/guides/understanding-stablecoins-pegs" className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 hover:text-white hover:border-cyan-500 transition block space-y-1">
+            <span className="font-bold block text-white text-sm">Stablecoin Peg Mechanics →</span>
+            <span className="text-slate-400 block">USDT vs USDC reserves, DAI vaults, and de-peg arbitrage.</span>
+          </a>
+          <a href="/guides/crypto-transaction-fees-and-spreads" className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-rose-300 hover:text-white hover:border-rose-500 transition block space-y-1">
+            <span className="font-bold block text-white text-sm">Hidden Spreads & Fees →</span>
+            <span className="text-slate-400 block">Exposing zero-fee brokerage markups and maker/taker tiers.</span>
           </a>
         </div>
       </div>

@@ -124,7 +124,7 @@ export const App: React.FC = () => {
       setTimeout(() => {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
+      }, 250);
     }
   }, [staticPageKey]);
 
@@ -148,51 +148,51 @@ export const App: React.FC = () => {
   // Sync active conversion pair to URL & update dynamic SEO Title/Meta/Canonical
   useEffect(() => {
     if (staticPageKey) {
-      let title = 'CoinRates.live — Free Real-Time Cryptocurrency Converter';
+      let title = 'CoinRates: Fiat-to-Crypto Exchange Rates & Converter';
       let desc = 'Track live cryptocurrency exchange rates and convert fiat to crypto with zero fees.';
       const canonical = `https://www.coinrates.live${currentPath}`;
 
       if (staticPageKey === 'about') {
-        title = 'About CoinRates.live — Free Real-Time Cryptocurrency Converter';
+        title = 'About CoinRates: Real-Time Crypto Converter & Rates';
         desc = 'Learn about CoinRates.live, our real-time market data methodology, zero-fee commitment, and independent crypto rate tracking platform.';
       } else if (staticPageKey === 'contact') {
-        title = 'Contact Us & Technical Support | CoinRates.live';
-        desc = 'Get in touch with the CoinRates.live team for technical support, partnership inquiries, and feedback.';
+        title = 'Contact Us: Support & Feedback | CoinRates.live';
+        desc = 'Get in touch with the CoinRates.live team for live cryptocurrency rate assistance, technical support, and partnership inquiries.';
       } else if (staticPageKey === 'privacy') {
         title = 'Privacy Policy & Cookies Disclosure | CoinRates.live';
         desc = 'Our complete privacy policy detailing Google AdSense cookies, DAA WebChoices, log files, and GDPR compliance on CoinRates.live.';
       } else if (staticPageKey === 'terms') {
-        title = 'Terms of Service | CoinRates.live';
-        desc = 'CoinRates.live terms of service, acceptable usage policy, and financial calculation disclaimers.';
+        title = 'Terms of Service & Usage Policy | CoinRates.live';
+        desc = 'CoinRates.live terms of service, acceptable usage policy, financial calculation disclaimers, and cryptocurrency tool guidelines.';
       } else if (staticPageKey === 'disclaimer') {
-        title = 'Financial & Risk Disclaimer | CoinRates.live';
-        desc = 'Financial disclaimer for CoinRates.live. Learn about cryptocurrency market risks and non-advisory calculations.';
+        title = 'Financial & Risk Disclosure Notice | CoinRates.live';
+        desc = 'Financial disclaimer for CoinRates.live. Learn about cryptocurrency market risks, exchange volatility, and non-advisory calculations.';
       } else if (staticPageKey === 'guides') {
         title = 'Crypto Market Guides & Knowledge Base | CoinRates.live';
         desc = 'Explore comprehensive cryptocurrency guides explaining exchange rates, fiat conversions, market capitalization, taxes, and network fees.';
       } else if (staticPageKey === 'guide-rates') {
         title = 'How Crypto Exchange Rates Are Determined | CoinRates.live';
-        desc = 'Understand how order book depth, bid-ask spreads, and market arbitrage determine real-time cryptocurrency exchange rates.';
+        desc = 'Understand how order book depth, bid-ask spreads, and automated market arbitrage determine real-time cryptocurrency exchange rates.';
       } else if (staticPageKey === 'guide-fiat') {
-        title = 'Safest Way to Convert Bitcoin to US Dollars | CoinRates.live';
-        desc = 'Compare regulated centralized exchanges, institutional OTC desks, and P2P multi-sig escrow with lowest fees in 2026.';
+        title = 'Safest Way to Convert BTC to US Dollars | CoinRates';
+        desc = 'Compare regulated centralized exchanges, institutional OTC desks, and P2P multi-sig escrow with lowest crypto cashout fees in 2026.';
       } else if (staticPageKey === 'guide-marketcap') {
-        title = 'Market Cap vs. 24h Trading Volume vs. FDV | CoinRates.live';
-        desc = 'Why high market cap can conceal phantom liquidity. How to evaluate circulating supply, token inflation, and wash trading risks.';
+        title = 'Market Cap vs. 24h Trading Volume | CoinRates.live';
+        desc = 'Why high market cap can conceal phantom liquidity. How to evaluate circulating supply, token inflation, and wash trading risks in crypto.';
       } else if (staticPageKey === 'guide-gas') {
-        title = 'What is Gwei in Crypto? Ethereum Gas & Fee Guide | CoinRates.live';
-        desc = 'Understand Ethereum Gwei, EIP-1559 base fee burning, validator priority tips, and how Layer-2 rollups reduce fees by 95%.';
+        title = 'What is Gwei? Live Ethereum Gas Fee Guide | CoinRates';
+        desc = 'Understand Ethereum Gwei, EIP-1559 base fee burning, validator priority tips, and how Layer-2 rollups reduce transaction fees by 95%.';
       } else if (staticPageKey === 'guide-tax') {
-        title = 'Cryptocurrency Tax Guide: How Conversions Are Taxed | CoinRates.live';
-        desc = 'Comprehensive guide to crypto-to-fiat and token swap taxation. Learn capital gains rules, FIFO vs HIFO cost basis, and tax reporting.';
+        title = 'Crypto Tax Guide: How Token Swaps Are Taxed | CoinRates';
+        desc = 'Learn cryptocurrency capital gains tax rules on crypto-to-fiat conversions, token swaps, FIFO vs HIFO cost basis, and tax reporting requirements.';
       } else if (staticPageKey === 'guide-cex-dex') {
-        title = 'Centralized (CEX) vs. Decentralized (DEX) Exchanges | CoinRates.live';
-        desc = 'Compare CEX vs DEX security, proof-of-reserves, private key custody, order books vs AMMs, and conversion slippage.';
+        title = 'CEX vs DEX: Crypto Exchange Security Guide | CoinRates';
+        desc = 'Compare CEX vs DEX security, proof-of-reserves, private key custody, order books vs AMMs, and conversion slippage on CoinRates.live.';
       } else if (staticPageKey === 'guide-stablecoins') {
-        title = 'Understanding Stablecoins: Fiat-Backed vs Algorithmic | CoinRates.live';
-        desc = 'How USDT, USDC, and DAI maintain 1:1 USD pegs. Learn about reserve audit attestations, redemption mechanics, and de-pegging risks.';
+        title = 'Stablecoin Guide: USDT, USDC & Peg Models | CoinRates';
+        desc = 'How USDT, USDC, and DAI preserve 1:1 USD pegs. Learn about reserve audit attestations, redemption mechanics, and de-pegging risks.';
       } else if (staticPageKey === 'guide-fees') {
-        title = 'Crypto Transaction Fees: Network Gas & Hidden Spreads | CoinRates.live';
+        title = 'Crypto Fees Explained: Gas, Spreads & Costs | CoinRates';
         desc = 'How zero-fee crypto apps make money on inflated bid-ask spreads. Calculate your true conversion slippage and save on trading fees.';
       }
 
@@ -222,9 +222,21 @@ export const App: React.FC = () => {
         window.history.replaceState({}, '', url.toString());
       }
 
-      // Title & Description strictly between 130 and 155 chars
-      const pageTitle = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} Rate | CoinRates.live`;
-      const pageDesc = `Convert ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at free real-time exchange rates with live charts and zero fees on CoinRates.live.`;
+      // Title strictly between 50 and 60 chars, never exceeding 60
+      let pageTitle = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} | CoinRates`;
+      if (pageTitle.length > 60) {
+        pageTitle = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.symbol} Rate | CoinRates`;
+      }
+      if (pageTitle.length > 60) {
+        pageTitle = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} Rate | CoinRates`;
+      }
+
+      // Description strictly between 130 and 155 chars
+      let pageDesc = `Convert 1 ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at real-time market rates. Live price charts, 0% fees, and fast calculator on CoinRates.live.`;
+      if (pageDesc.length > 155) {
+        pageDesc = `Convert 1 ${fromCurrency.symbol} to ${toCurrency.name} (${toCurrency.symbol}) at live rates. Interactive charts, 0% fees, and fast crypto calculator on CoinRates.live.`;
+      }
+
       const canonicalUrl = isPairPage ? `https://www.coinrates.live/convert/${pairSlug}` : 'https://www.coinrates.live/';
 
       document.title = pageTitle;
@@ -389,7 +401,7 @@ export const App: React.FC = () => {
         /* Main Converter Dashboard */
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
           {/* Hero Header (Pair-Aware H1 to Prevent Hydration Content Mismatch) */}
-          <section className="text-center max-w-3xl mx-auto space-y-4">
+          <section className="text-center max-w-3xl mx-auto space-y-4 google-auto-ads-ignore">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
               <span>CoinRates.live • Free Real-Time Cryptocurrency Converter</span>
