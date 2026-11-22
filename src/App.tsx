@@ -483,6 +483,30 @@ export const App: React.FC = () => {
                 ETH to BTC
               </a>
               <a
+                href="/convert/doge-to-usdt"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectPair('DOGE', 'USDT');
+                  window.history.pushState({}, '', '/convert/doge-to-usdt');
+                  scrollToSection('converter-section');
+                }}
+                className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/30 text-emerald-300 hover:text-white hover:border-emerald-400 font-semibold transition shadow-sm"
+              >
+                DOGE to USDT
+              </a>
+              <a
+                href="/convert/btc-to-zar"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectPair('BTC', 'ZAR');
+                  window.history.pushState({}, '', '/convert/btc-to-zar');
+                  scrollToSection('converter-section');
+                }}
+                className="px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 text-cyan-300 hover:text-white hover:border-cyan-400 font-semibold transition shadow-sm"
+              >
+                BTC to ZAR
+              </a>
+              <a
                 href="/convert/btc-to-usd"
                 onClick={(e) => {
                   e.preventDefault();

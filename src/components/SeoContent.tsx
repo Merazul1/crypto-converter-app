@@ -229,6 +229,10 @@ export const SeoContent: React.FC = () => {
         <a href="/convert/btc-to-cad" className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-indigo-300 hover:text-white hover:border-indigo-500 transition">BTC to CAD</a>
         <a href="/convert/btc-to-aud" className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-indigo-300 hover:text-white hover:border-indigo-500 transition">BTC to AUD</a>
         <a href="/convert/eth-to-btc" className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-indigo-300 hover:text-white hover:border-indigo-500 transition">ETH to BTC</a>
+        <a href="/convert/doge-to-usdt" className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-indigo-300 hover:text-white hover:border-indigo-500 transition">DOGE to USDT</a>
+        <a href="/convert/doge-to-usdc" className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-indigo-300 hover:text-white hover:border-indigo-500 transition">DOGE to USDC</a>
+        <a href="/convert/btc-to-zar" className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-indigo-300 hover:text-white hover:border-indigo-500 transition">BTC to ZAR</a>
+        <a href="/convert/btc-to-irt" className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-indigo-300 hover:text-white hover:border-indigo-500 transition">BTC to IRT</a>
       </div>
 
     </section>
