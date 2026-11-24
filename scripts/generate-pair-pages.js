@@ -249,10 +249,34 @@ ${SHARED_FOOTER}
 // SEARCH-CONSOLE OPTIMIZED TITLE GENERATOR (STRICTLY 50-60 CHARACTERS)
 // =========================================================================
 function getPairPageTitle(pair) {
-  if (pair.fromSym === 'SOL' && pair.toSym === 'USD') return 'SOL to USD: Live Solana Exchange Rate & Chart | CoinRates';
-  if (pair.fromSym === 'ETH' && pair.toSym === 'BTC') return 'ETH to BTC: Live Ethereum to Bitcoin Rate | CoinRates';
-  if (pair.fromSym === 'DOGE' && pair.toSym === 'USD') return 'DOGE to USD: Live Dogecoin Converter Rate | CoinRates';
-  if (pair.fromSym === 'DOGE' && pair.toSym === 'USDT') return 'DOGE to USDT: Live Dogecoin to Tether Rate | CoinRates';
+  if (pair.fromSym === 'SOL' && pair.toSym === 'USD') {
+    const formatted = pair.rate >= 1000 ? Math.round(pair.rate).toLocaleString() : Math.round(pair.rate);
+    let t = `SOL to USD: $${formatted} Live Solana Rate & Chart | CoinRates`;
+    if (t.length < 50) t = `SOL to USD: $${pair.rate.toFixed(2)} Live Solana Rate & Chart | CoinRates`;
+    if (t.length > 60) t = `SOL to USD: $${formatted} Live Solana Price & Rate | CoinRates`;
+    return t;
+  }
+  if (pair.fromSym === 'ETH' && pair.toSym === 'BTC') {
+    const formatted = pair.rate < 0.01 ? pair.rate.toFixed(4) : pair.rate.toFixed(3);
+    let t = `ETH to BTC: ${formatted} BTC Live Exchange Rate | CoinRates`;
+    if (t.length < 50) t = `ETH to BTC: ${pair.rate.toFixed(4)} BTC Live Exchange Rate | CoinRates`;
+    if (t.length > 60) t = `ETH to BTC: ${formatted} BTC Live Rate & Chart | CoinRates`;
+    return t;
+  }
+  if (pair.fromSym === 'DOGE' && pair.toSym === 'USD') {
+    const formatted = pair.rate < 1 ? pair.rate.toFixed(3) : pair.rate.toFixed(2);
+    let t = `DOGE to USD: $${formatted} Live Dogecoin Converter | CoinRates`;
+    if (t.length < 50) t = `DOGE to USD: $${formatted} Live Dogecoin Rate & Chart | CoinRates`;
+    if (t.length > 60) t = `DOGE to USD: $${formatted} Live Doge Converter | CoinRates`;
+    return t;
+  }
+  if (pair.fromSym === 'DOGE' && pair.toSym === 'USDT') {
+    const formatted = pair.rate < 1 ? pair.rate.toFixed(3) : pair.rate.toFixed(2);
+    let t = `DOGE to USDT: ${formatted} USDT Live Exchange Rate | CoinRates`;
+    if (t.length < 50) t = `DOGE to USDT: ${formatted} USDT Live Dogecoin Rate | CoinRates`;
+    if (t.length > 60) t = `DOGE to USDT: ${formatted} USDT Live Rate | CoinRates`;
+    return t;
+  }
   if (pair.fromSym === 'DOGE' && pair.toSym === 'USDC') return 'DOGE to USDC: Live Dogecoin to USDC Rate | CoinRates';
   if (pair.fromSym === 'BTC' && pair.toSym === 'ZAR') return 'BTC to ZAR: Live Bitcoin to South Africa Rand | CoinRates';
   if (pair.fromSym === 'BTC' && pair.toSym === 'IRT') return 'BTC to IRT: Live Bitcoin to Iranian Toman Rate | CoinRates';
@@ -412,13 +436,46 @@ function getPairEditorial(pair) {
   };
 }
 
-function generatePages() {
+async function fetchLiveRatesSafe(pairs) {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+    const res = await fetch('https://api.binance.com/api/v3/ticker/price', { signal: controller.signal });
+    clearTimeout(timeout);
+    if (!res.ok) return pairs;
+    const data = await res.json();
+    const priceMap = new Map();
+    for (const item of data) {
+      priceMap.set(item.symbol, parseFloat(item.price));
+    }
+    return pairs.map(p => {
+      const direct = `${p.fromSym}${p.toSym}`;
+      const usdt = `${p.fromSym}USDT`;
+      const toUsdt = `${p.toSym}USDT`;
+      if (priceMap.has(direct)) {
+        return { ...p, rate: priceMap.get(direct) };
+      }
+      if (p.toSym === 'USD' && priceMap.has(usdt)) {
+        return { ...p, rate: priceMap.get(usdt) };
+      }
+      if (priceMap.has(usdt) && priceMap.has(toUsdt)) {
+        return { ...p, rate: priceMap.get(usdt) / priceMap.get(toUsdt) };
+      }
+      return p;
+    });
+  } catch {
+    return pairs;
+  }
+}
+
+async function generatePages() {
   const templatePath = path.join(DIST_DIR, 'index.html');
   if (!fs.existsSync(templatePath)) {
     console.error('Error: dist/index.html does not exist. Run vite build first.');
     process.exit(1);
   }
 
+  const activePairs = await fetchLiveRatesSafe(PAIRS);
   const baseHtml = fs.readFileSync(templatePath, 'utf-8');
   const today = new Date().toISOString().split('T')[0];
   const sitemapUrls = [
@@ -517,7 +574,7 @@ function generatePages() {
   }
 
   // 2. Generate Dedicated Conversion Pair Pages
-  for (const pair of PAIRS) {
+  for (const pair of activePairs) {
     const slug = `${pair.fromSym.toLowerCase()}-to-${pair.toSym.toLowerCase()}`;
     const canonicalUrl = `https://www.coinrates.live/convert/${slug}`;
     const pageTitle = getPairPageTitle(pair);

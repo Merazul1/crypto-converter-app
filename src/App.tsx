@@ -222,19 +222,91 @@ export const App: React.FC = () => {
         window.history.replaceState({}, '', url.toString());
       }
 
-      // Title strictly between 50 and 60 chars, never exceeding 60
-      let pageTitle = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} | CoinRates`;
-      if (pageTitle.length > 60) {
-        pageTitle = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.symbol} Rate | CoinRates`;
-      }
-      if (pageTitle.length > 60) {
-        pageTitle = `1 ${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} Rate | CoinRates`;
+      // High-impact pairs with live price in title (strictly 50-60 chars)
+      let pageTitle = '';
+      const fromSym = fromCurrency.symbol.toUpperCase();
+      const toSym = toCurrency.symbol.toUpperCase();
+      const liveRate = toCurrency.priceUsd > 0 ? fromCurrency.priceUsd / toCurrency.priceUsd : 1;
+
+      if (!isPairPage) {
+        pageTitle = 'CoinRates: Fiat-to-Crypto Exchange Rates & Converter';
+      } else if (fromSym === 'SOL' && toSym === 'USD') {
+        const formatted = liveRate >= 1000 ? Math.round(liveRate).toLocaleString() : Math.round(liveRate);
+        pageTitle = `SOL to USD: $${formatted} Live Solana Rate & Chart | CoinRates`;
+        if (pageTitle.length < 50) {
+          pageTitle = `SOL to USD: $${liveRate.toFixed(2)} Live Solana Rate & Chart | CoinRates`;
+        }
+        if (pageTitle.length > 60) {
+          pageTitle = `SOL to USD: $${formatted} Live Solana Price & Rate | CoinRates`;
+        }
+      } else if (fromSym === 'ETH' && toSym === 'BTC') {
+        const formatted = liveRate < 0.01 ? liveRate.toFixed(4) : liveRate.toFixed(3);
+        pageTitle = `ETH to BTC: ${formatted} BTC Live Exchange Rate | CoinRates`;
+        if (pageTitle.length < 50) {
+          pageTitle = `ETH to BTC: ${liveRate.toFixed(4)} BTC Live Exchange Rate | CoinRates`;
+        }
+        if (pageTitle.length > 60) {
+          pageTitle = `ETH to BTC: ${formatted} BTC Live Rate & Chart | CoinRates`;
+        }
+      } else if (fromSym === 'DOGE' && toSym === 'USD') {
+        const formatted = liveRate < 1 ? liveRate.toFixed(3) : liveRate.toFixed(2);
+        pageTitle = `DOGE to USD: $${formatted} Live Dogecoin Converter | CoinRates`;
+        if (pageTitle.length < 50) {
+          pageTitle = `DOGE to USD: $${formatted} Live Dogecoin Rate & Chart | CoinRates`;
+        }
+        if (pageTitle.length > 60) {
+          pageTitle = `DOGE to USD: $${formatted} Live Doge Converter | CoinRates`;
+        }
+      } else if (fromSym === 'DOGE' && toSym === 'USDT') {
+        const formatted = liveRate < 1 ? liveRate.toFixed(3) : liveRate.toFixed(2);
+        pageTitle = `DOGE to USDT: ${formatted} USDT Live Exchange Rate | CoinRates`;
+        if (pageTitle.length < 50) {
+          pageTitle = `DOGE to USDT: ${formatted} USDT Live Dogecoin Rate | CoinRates`;
+        }
+        if (pageTitle.length > 60) {
+          pageTitle = `DOGE to USDT: ${formatted} USDT Live Rate | CoinRates`;
+        }
+      } else if (fromSym === 'DOGE' && toSym === 'USDC') {
+        pageTitle = 'DOGE to USDC: Live Dogecoin to USDC Rate | CoinRates';
+      } else if (fromSym === 'BTC' && toSym === 'ZAR') {
+        pageTitle = 'BTC to ZAR: Live Bitcoin to South Africa Rand | CoinRates';
+      } else if (fromSym === 'BTC' && toSym === 'IRT') {
+        pageTitle = 'BTC to IRT: Live Bitcoin to Iranian Toman Rate | CoinRates';
+      } else if (fromSym === 'BTC' && toSym === 'CAD') {
+        pageTitle = 'BTC to CAD: Live Bitcoin to Canadian Dollar | CoinRates';
+      } else if (fromSym === 'BTC' && toSym === 'AUD') {
+        pageTitle = 'BTC to AUD: Live Bitcoin to Australian Dollar | CoinRates';
+      } else if (fromSym === 'BTC' && toSym === 'INR') {
+        pageTitle = 'BTC to INR: Live Bitcoin to Indian Rupee Rate | CoinRates';
+      } else if (fromSym === 'BTC' && toSym === 'USD') {
+        pageTitle = 'BTC to USD: Live Bitcoin to US Dollar Rate | CoinRates';
+      } else if (fromSym === 'ETH' && toSym === 'USD') {
+        pageTitle = 'ETH to USD: Live Ethereum to US Dollar Rate | CoinRates';
+      } else {
+        pageTitle = `${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} to ${toCurrency.name} | CoinRates`;
+        if (pageTitle.length > 60) {
+          pageTitle = `${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} Rate & Chart | CoinRates`;
+        }
+        if (pageTitle.length > 60) {
+          pageTitle = `${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.symbol}/${toCurrency.symbol} Rate & Chart | CoinRates`;
+        }
+        if (pageTitle.length < 50) {
+          pageTitle = `${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} Rate & Chart | CoinRates`;
+        }
+        if (pageTitle.length < 50) {
+          pageTitle = `${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.name} Price & Calculator | CoinRates`;
+        }
+        if (pageTitle.length > 60) {
+          pageTitle = `${fromCurrency.symbol} to ${toCurrency.symbol}: Live ${fromCurrency.symbol}/${toCurrency.symbol} Rate & Chart | CoinRates`;
+        }
       }
 
-      // Description strictly between 130 and 155 chars
-      let pageDesc = `Convert 1 ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at real-time market rates. Live price charts, 0% fees, and fast calculator on CoinRates.live.`;
+      // Description strictly between 120 and 155 chars
+      let pageDesc = isPairPage
+        ? `Convert ${fromCurrency.name} (${fromCurrency.symbol}) to ${toCurrency.name} (${toCurrency.symbol}) at real-time market rates. Live price charts, zero fees, and calculator on CoinRates.live.`
+        : 'Track live crypto currencies exchange rates and real-time fiat-to-crypto prices. Free instant BTC to USD calculator with 0% fees on CoinRates.live.';
       if (pageDesc.length > 155) {
-        pageDesc = `Convert 1 ${fromCurrency.symbol} to ${toCurrency.name} (${toCurrency.symbol}) at live rates. Interactive charts, 0% fees, and fast crypto calculator on CoinRates.live.`;
+        pageDesc = `Convert ${fromCurrency.symbol} to ${toCurrency.symbol} at real-time market rates. Live price charts, zero fees, and instant crypto calculator on CoinRates.live.`;
       }
 
       const canonicalUrl = isPairPage ? `https://www.coinrates.live/convert/${pairSlug}` : 'https://www.coinrates.live/';
@@ -410,7 +482,7 @@ export const App: React.FC = () => {
             {isPairPage ? (
               <div className="space-y-3">
                 <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-                  1 {fromCurrency.symbol} to {toCurrency.symbol}: <br className="hidden sm:inline" />
+                  {fromCurrency.symbol} to {toCurrency.symbol} Converter: <br className="hidden sm:inline" />
                   <span className="gradient-text">Live {fromCurrency.name} to {toCurrency.name} Rate</span>
                 </h1>
                 <p className="text-slate-400 text-sm sm:text-base leading-relaxed">

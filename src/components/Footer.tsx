@@ -47,6 +47,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <li><a href="/convert/btc-to-usd" onClick={(e) => handleLink(e, '/convert/btc-to-usd')} className="hover:text-indigo-400 transition">BTC to USD Converter</a></li>
                 <li><a href="/convert/eth-to-usd" onClick={(e) => handleLink(e, '/convert/eth-to-usd')} className="hover:text-indigo-400 transition">ETH to USD Converter</a></li>
                 <li><a href="/convert/sol-to-usd" onClick={(e) => handleLink(e, '/convert/sol-to-usd')} className="hover:text-indigo-400 transition">SOL to USD Converter</a></li>
+                <li><a href="/convert/doge-to-usd" onClick={(e) => handleLink(e, '/convert/doge-to-usd')} className="hover:text-indigo-400 transition">DOGE to USD Converter</a></li>
+                <li><a href="/convert/doge-to-usdt" onClick={(e) => handleLink(e, '/convert/doge-to-usdt')} className="hover:text-indigo-400 transition">DOGE to USDT Converter</a></li>
+                <li><a href="/convert/eth-to-btc" onClick={(e) => handleLink(e, '/convert/eth-to-btc')} className="hover:text-indigo-400 transition">ETH to BTC Converter</a></li>
                 <li><a href="/guides/understanding-ethereum-gas-fees" onClick={(e) => handleLink(e, '/guides/understanding-ethereum-gas-fees')} className="hover:text-indigo-400 transition">Ethereum Gas Tracker Guide</a></li>
                 <li><a href="/guides/how-crypto-exchange-rates-work" onClick={(e) => handleLink(e, '/guides/how-crypto-exchange-rates-work')} className="hover:text-indigo-400 transition">Exchange Rates Explained</a></li>
               </ul>
