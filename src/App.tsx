@@ -76,17 +76,39 @@ export const App: React.FC = () => {
     }
   });
 
+  // Helper to extract pair symbols from pathname (e.g. /convert/doge-to-usd or /doge-to-usd)
+  const syncCurrenciesFromPath = useCallback((pathname: string) => {
+    const match = pathname.toLowerCase().match(/(?:convert\/)?([a-z0-9]+)-to-([a-z0-9]+)/i);
+    if (match) {
+      const fromSym = match[1].toUpperCase();
+      const toSym = match[2].toUpperCase();
+      const foundFrom = currencies.find((c) => c.symbol === fromSym) || INITIAL_CURRENCIES.find((c) => c.symbol === fromSym);
+      const foundTo = currencies.find((c) => c.symbol === toSym) || INITIAL_CURRENCIES.find((c) => c.symbol === toSym);
+      if (foundFrom) setFromCurrency(foundFrom);
+      if (foundTo) setToCurrency(foundTo);
+    }
+  }, [currencies]);
+
   const handleNavigate = (path: string) => {
-    setCurrentPath(path.toLowerCase());
+    const lower = path.toLowerCase();
+    setCurrentPath(lower);
+    syncCurrenciesFromPath(lower);
   };
 
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname.toLowerCase());
+      const path = window.location.pathname.toLowerCase();
+      setCurrentPath(path);
+      syncCurrenciesFromPath(path);
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [syncCurrenciesFromPath]);
+
+  // Keep currencies synced whenever currentPath changes
+  useEffect(() => {
+    syncCurrenciesFromPath(currentPath);
+  }, [currentPath, syncCurrenciesFromPath]);
 
   // Determine if viewing a static informational or comprehensive guide page
   let staticPageKey: StaticPageKey | null = null;
@@ -108,8 +130,7 @@ export const App: React.FC = () => {
   // Check if viewing a dedicated conversion pair page
   const isPairPage = !staticPageKey && (
     currentPath.startsWith('/convert/') ||
-    window.location.pathname.toLowerCase().startsWith('/convert/') ||
-    window.location.pathname.includes('-to-')
+    currentPath.includes('-to-')
   );
 
   // Handle direct hash navigation (e.g. landing on /guides#converter-section or /#converter-section)
@@ -213,9 +234,9 @@ export const App: React.FC = () => {
       const pairSlug = `${fromCurrency.symbol.toLowerCase()}-to-${toCurrency.symbol.toLowerCase()}`;
       const pairPath = `/convert/${pairSlug}`;
 
-      if (window.location.pathname.startsWith('/convert/') || window.location.pathname.includes('-to-')) {
+      if (isPairPage) {
         window.history.replaceState({}, '', pairPath);
-      } else {
+      } else if (window.location.search) {
         const url = new URL(window.location.href);
         url.searchParams.set('from', fromCurrency.symbol);
         url.searchParams.set('to', toCurrency.symbol);
@@ -411,10 +432,14 @@ export const App: React.FC = () => {
 
   // Select pair from quick clicks or ticker
   const handleSelectPair = (fromSymbol: string, toSymbol: string) => {
-    const fromCoin = currencies.find((c) => c.symbol.toUpperCase() === fromSymbol.toUpperCase());
-    const toCoin = currencies.find((c) => c.symbol.toUpperCase() === toSymbol.toUpperCase());
+    const fromCoin = currencies.find((c) => c.symbol.toUpperCase() === fromSymbol.toUpperCase()) || INITIAL_CURRENCIES.find((c) => c.symbol === fromSymbol.toUpperCase());
+    const toCoin = currencies.find((c) => c.symbol.toUpperCase() === toSymbol.toUpperCase()) || INITIAL_CURRENCIES.find((c) => c.symbol === toSymbol.toUpperCase());
     if (fromCoin) setFromCurrency(fromCoin);
     if (toCoin) setToCurrency(toCoin);
+    const slug = `${fromSymbol.toLowerCase()}-to-${toSymbol.toLowerCase()}`;
+    const targetPath = `/convert/${slug}`;
+    setCurrentPath(targetPath);
+    window.history.pushState({}, '', targetPath);
   };
 
   // Single coin selection from live ticker
@@ -521,9 +546,9 @@ export const App: React.FC = () => {
               <a
                 href="/convert/sol-to-usd"
                 onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
                   e.preventDefault();
                   handleSelectPair('SOL', 'USD');
-                  window.history.pushState({}, '', '/convert/sol-to-usd');
                   scrollToSection('converter-section');
                 }}
                 className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/10 to-indigo-500/10 border border-purple-500/30 text-purple-300 hover:text-white hover:border-purple-400 font-semibold transition shadow-sm"
@@ -533,9 +558,9 @@ export const App: React.FC = () => {
               <a
                 href="/convert/doge-to-usd"
                 onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
                   e.preventDefault();
                   handleSelectPair('DOGE', 'USD');
-                  window.history.pushState({}, '', '/convert/doge-to-usd');
                   scrollToSection('converter-section');
                 }}
                 className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border border-amber-500/30 text-amber-300 hover:text-white hover:border-amber-400 font-semibold transition shadow-sm"
@@ -545,9 +570,9 @@ export const App: React.FC = () => {
               <a
                 href="/convert/eth-to-btc"
                 onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
                   e.preventDefault();
                   handleSelectPair('ETH', 'BTC');
-                  window.history.pushState({}, '', '/convert/eth-to-btc');
                   scrollToSection('converter-section');
                 }}
                 className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 font-semibold transition"
@@ -557,9 +582,9 @@ export const App: React.FC = () => {
               <a
                 href="/convert/doge-to-usdt"
                 onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
                   e.preventDefault();
                   handleSelectPair('DOGE', 'USDT');
-                  window.history.pushState({}, '', '/convert/doge-to-usdt');
                   scrollToSection('converter-section');
                 }}
                 className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/30 text-emerald-300 hover:text-white hover:border-emerald-400 font-semibold transition shadow-sm"
@@ -569,9 +594,9 @@ export const App: React.FC = () => {
               <a
                 href="/convert/btc-to-zar"
                 onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
                   e.preventDefault();
                   handleSelectPair('BTC', 'ZAR');
-                  window.history.pushState({}, '', '/convert/btc-to-zar');
                   scrollToSection('converter-section');
                 }}
                 className="px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 text-cyan-300 hover:text-white hover:border-cyan-400 font-semibold transition shadow-sm"
@@ -581,9 +606,9 @@ export const App: React.FC = () => {
               <a
                 href="/convert/btc-to-usd"
                 onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
                   e.preventDefault();
                   handleSelectPair('BTC', 'USD');
-                  window.history.pushState({}, '', '/convert/btc-to-usd');
                   scrollToSection('converter-section');
                 }}
                 className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 font-semibold transition"
@@ -593,9 +618,9 @@ export const App: React.FC = () => {
               <a
                 href="/convert/btc-to-cad"
                 onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
                   e.preventDefault();
                   handleSelectPair('BTC', 'CAD');
-                  window.history.pushState({}, '', '/convert/btc-to-cad');
                   scrollToSection('converter-section');
                 }}
                 className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 font-semibold transition"
@@ -605,9 +630,9 @@ export const App: React.FC = () => {
               <a
                 href="/convert/eth-to-usd"
                 onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
                   e.preventDefault();
                   handleSelectPair('ETH', 'USD');
-                  window.history.pushState({}, '', '/convert/eth-to-usd');
                   scrollToSection('converter-section');
                 }}
                 className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 font-semibold transition"

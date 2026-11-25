@@ -11,8 +11,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const [modalType, setModalType] = useState<'privacy' | 'terms' | null>(null);
 
   const handleLink = (e: React.MouseEvent, path: string) => {
+    // Permit default browser behavior for modifier keys / middle click (new tabs)
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) {
+      return;
+    }
     if (onNavigate) {
       e.preventDefault();
+      if (path.startsWith('/#')) {
+        const sectionId = path.replace('/#', '');
+        window.history.pushState({}, '', path);
+        onNavigate('/');
+        setTimeout(() => {
+          const el = document.getElementById(sectionId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+        return;
+      }
       window.history.pushState({}, '', path);
       onNavigate(path);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -50,8 +64,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <li><a href="/convert/doge-to-usd" onClick={(e) => handleLink(e, '/convert/doge-to-usd')} className="hover:text-indigo-400 transition">DOGE to USD Converter</a></li>
                 <li><a href="/convert/doge-to-usdt" onClick={(e) => handleLink(e, '/convert/doge-to-usdt')} className="hover:text-indigo-400 transition">DOGE to USDT Converter</a></li>
                 <li><a href="/convert/eth-to-btc" onClick={(e) => handleLink(e, '/convert/eth-to-btc')} className="hover:text-indigo-400 transition">ETH to BTC Converter</a></li>
-                <li><a href="/guides/understanding-ethereum-gas-fees" onClick={(e) => handleLink(e, '/guides/understanding-ethereum-gas-fees')} className="hover:text-indigo-400 transition">Ethereum Gas Tracker Guide</a></li>
-                <li><a href="/guides/how-crypto-exchange-rates-work" onClick={(e) => handleLink(e, '/guides/how-crypto-exchange-rates-work')} className="hover:text-indigo-400 transition">Exchange Rates Explained</a></li>
+                <li><a href="/convert/btc-to-cad" onClick={(e) => handleLink(e, '/convert/btc-to-cad')} className="hover:text-indigo-400 transition">BTC to CAD Converter</a></li>
+                <li><a href="/convert/btc-to-eur" onClick={(e) => handleLink(e, '/convert/btc-to-eur')} className="hover:text-indigo-400 transition">BTC to EUR Converter</a></li>
               </ul>
             </div>
 

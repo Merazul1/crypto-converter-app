@@ -43,6 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo, onNavigate }
         <a 
           href="/"
           onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
             if (onNavigate) {
               e.preventDefault();
               window.history.pushState({}, '', '/');
@@ -71,6 +72,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo, onNavigate }
           <a
             href="/guides"
             onClick={(e) => {
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
               if (onNavigate) {
                 e.preventDefault();
                 window.history.pushState({}, '', '/guides');
@@ -84,6 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo, onNavigate }
           <a
             href="/about"
             onClick={(e) => {
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
               if (onNavigate) {
                 e.preventDefault();
                 window.history.pushState({}, '', '/about');
@@ -97,6 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isLive, onScrollTo, onNavigate }
           <a
             href="/contact"
             onClick={(e) => {
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
               if (onNavigate) {
                 e.preventDefault();
                 window.history.pushState({}, '', '/contact');
