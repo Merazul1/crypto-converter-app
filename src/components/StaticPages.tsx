@@ -964,7 +964,45 @@ export const StaticPage: React.FC<StaticPageProps> = ({ page, onNavigate }) => {
             <li><strong>Specific Identification:</strong> Requires explicit transaction hash tracking for each individual disposal.</li>
           </ul>
 
+          <h2 className="text-xl font-bold text-white pt-2">Does Converting Crypto Get Taxed?</h2>
+          <p className="text-sm text-slate-400 leading-relaxed">
+            <strong>Yes, converting crypto is legally recognized as a taxable event</strong> by tax agencies including the IRS (United States), HMRC (United Kingdom), CRA (Canada), and ATO (Australia). When you exchange one cryptocurrency for another (such as Bitcoin for Ethereum or Solana for Tether), the tax authority treats the transaction as two simultaneous steps: disposing of your original coin at its fair market value in fiat currency, and immediately purchasing the new coin with that fiat.
+          </p>
+
+          <h2 className="text-xl font-bold text-white pt-2">PancakeSwap Taxes: How DEX Swaps &amp; Liquidity Pools Are Taxed</h2>
+          <p className="text-sm text-slate-400 leading-relaxed">
+            <strong>Swapping tokens on PancakeSwap triggers taxable capital gains or losses on every trade</strong>, even though PancakeSwap is a decentralized exchange (DEX) without KYC requirements. In the eyes of the IRS and global tax authorities, trading on a smart contract on the BNB Smart Chain (BSC) carries the exact same tax obligations as trading on a regulated centralized exchange.
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-400 pt-1">
+            <li><strong>BEP-20 Swaps:</strong> Every token exchange triggers a capital gain or loss against your cost basis.</li>
+            <li><strong>Liquidity Pool LP Tokens:</strong> Contributing to liquidity pools is treated as a crypto disposal in many tax jurisdictions.</li>
+            <li><strong>Yield Farming:</strong> CAKE rewards claimed from farms are taxed as ordinary income upon receipt.</li>
+            <li><strong>Gas Fee Deductions:</strong> BNB transaction fees incurred on PancakeSwap reduce your net taxable proceeds.</li>
+          </ul>
+
+          <h2 className="text-xl font-bold text-white pt-2">Gate.io Taxes: How to Report Spot Trades, Futures &amp; Conversions</h2>
+          <p className="text-sm text-slate-400 leading-relaxed">
+            <strong>All spot trading, token conversions, and futures profits executed on Gate.io must be reported on your annual tax return</strong>. Even though Gate.io is an international exchange that may not issue 1099 forms directly to domestic authorities, transferring funds from Gate.io to domestic bank accounts or regulated on-ramps creates audit trails that must match your tax filing.
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-400 pt-1">
+            <li><strong>CSV History Export:</strong> Download complete historical orders from Gate.io under <em>Orders &gt; Spot Orders &gt; Trade History</em>.</li>
+            <li><strong>Futures &amp; Perpetual Contracts:</strong> Net profits from derivatives trading are taxed under applicable capital gains or Section 1256 guidelines.</li>
+            <li><strong>Startup &amp; Airdrop Rewards:</strong> Free tokens received via Gate.io Startup are taxable as ordinary income at fair market value.</li>
+          </ul>
+
           <FaqAccordion items={[
+            {
+              q: 'Does converting crypto get taxed?',
+              a: 'Yes. Exchanging cryptocurrency for another token (like ETH to BTC or SOL to USDC) is legally recognized as a taxable disposal at current fair market value.'
+            },
+            {
+              q: 'How are PancakeSwap and DEX token swaps taxed?',
+              a: 'Every token swap on PancakeSwap triggers capital gains calculations. Staking or liquidity farming rewards are taxed as ordinary income upon receipt.'
+            },
+            {
+              q: 'How do I report Gate.io crypto trades on my taxes?',
+              a: 'Export your complete trade history CSV from Gate.io under Orders > Spot Orders > Trade History and calculate your capital gains and losses using FIFO or HIFO accounting.'
+            },
             {
               q: 'Do I pay taxes if I convert Bitcoin into a stablecoin like USDC?',
               a: 'Yes. Stablecoins are treated as cryptocurrency. Swapping BTC for USDC is considered a property sale at fair market value, triggering a capital gain or loss.'

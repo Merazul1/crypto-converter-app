@@ -3,6 +3,13 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:pair([a-z0-9]+-to-[a-z0-9]+)",
+      "destination": "/convert/:pair",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/convert/(.*)",

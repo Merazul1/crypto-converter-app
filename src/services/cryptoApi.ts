@@ -31,9 +31,16 @@ export async function fetchLiveCryptoRates(): Promise<{ [symbol: string]: { pric
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 6000);
 
-    const res = await fetch('https://api.binance.com/api/v3/ticker/24hr', {
+    // Use Binance public market-data mirror (data-api.binance.vision) to avoid US 451 geo-restrictions
+    let res = await fetch('https://data-api.binance.vision/api/v3/ticker/24hr', {
       signal: controller.signal
-    });
+    }).catch(() => null);
+
+    if (!res || !res.ok) {
+      res = await fetch('https://api.binance.com/api/v3/ticker/24hr', {
+        signal: controller.signal
+      });
+    }
     clearTimeout(timeoutId);
 
     if (!res.ok) throw new Error('Binance API response error');

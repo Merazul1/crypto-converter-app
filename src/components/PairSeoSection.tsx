@@ -162,6 +162,51 @@ export const PairSeoSection: React.FC<PairSeoSectionProps> = ({ fromCurrency, to
         </div>
       </div>
 
+      {/* Targeted Long-Tail Amount Benchmarks */}
+      {fromCurrency.symbol === 'SOL' && toCurrency.symbol === 'USD' && (
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <h3 className="font-bold text-base text-white">40 SOL to USD: Current Market Value</h3>
+          <p className="text-xs sm:text-sm text-slate-400">
+            At current market rates, <strong>40 SOL</strong> converts to approximately <strong className="text-emerald-400">${formatRate(40 * liveRate)} USD</strong>. Check our instant multi-amount table above for real-time calculations from 0.01 to 500 SOL with zero platform fees.
+          </p>
+        </div>
+      )}
+
+      {fromCurrency.symbol === 'ETH' && toCurrency.symbol === 'BTC' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+            <h3 className="font-bold text-base text-white">1 ETH to BTC: Current Exchange Ratio</h3>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Right now, <strong>1 ETH to BTC</strong> trades at approximately <strong className="text-emerald-400">{formatRate(liveRate)} BTC</strong> (or ~{Math.round(liveRate * 100000000).toLocaleString()} Satoshis).
+            </p>
+          </div>
+          <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+            <h3 className="font-bold text-base text-white">5 ETH to BTC: Conversion Benchmark</h3>
+            <p className="text-xs sm:text-sm text-slate-400">
+              At current spot rates, <strong>5 ETH to BTC</strong> equals approximately <strong className="text-emerald-400">{formatRate(5 * liveRate)} BTC</strong> with zero fees on CoinRates.live.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {fromCurrency.symbol === 'DOGE' && toCurrency.symbol === 'USDT' && (
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <h3 className="font-bold text-base text-white">100 DOGE to USDT: Live Conversion Value</h3>
+          <p className="text-xs sm:text-sm text-slate-400">
+            At current market rates, <strong>100 DOGE to USDT</strong> converts to approximately <strong className="text-emerald-400">{formatRate(100 * liveRate)} USDT</strong>. On the Tron blockchain, this pair trades seamlessly as USDTRX (TRC-20 USDT) with ultra-low network gas fees.
+          </p>
+        </div>
+      )}
+
+      {fromCurrency.symbol === 'BTC' && toCurrency.symbol === 'CAD' && (
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <h3 className="font-bold text-base text-white">Bitcoin Price CDN: Live BTC to Canadian Dollar (CAD) Rate</h3>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Tracking the <strong>bitcoin price cdn</strong>? 1 Bitcoin (BTC) currently trades at approximately <strong className="text-emerald-400">${formatRate(liveRate)} CAD</strong> (Canadian Dollars) with zero platform fees on CoinRates.live.
+          </p>
+        </div>
+      )}
+
       {/* Pair-Specific FAQs Accordion */}
       <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-4">
         <div className="border-b border-slate-800/80 pb-4">

@@ -10,7 +10,10 @@ const DIST_DIR = path.resolve(__dirname, '../dist');
 const SITEMAP_PUBLIC_PATH = path.resolve(__dirname, '../public/sitemap.xml');
 const SITEMAP_DIST_PATH = path.resolve(__dirname, '../dist/sitemap.xml');
 
-// High-impact pairs with estimated baseline prices for pre-rendered tables
+// Replaces the whole #root block up to the closing body tag or script, preventing nested div truncation
+const ROOT_RE = /<div id="root">[\s\S]*?<\/div>(\s*(?:<script type="module"|<\/body>))/i;
+const injectRoot = (html, content) =>
+  html.replace(ROOT_RE, (_, tail) => `<div id="root">${content}</div>${tail}`);
 const PAIRS = [
   { fromSym: 'BTC', fromName: 'Bitcoin', toSym: 'USD', toName: 'US Dollar', rate: 68450, isCryptoToCrypto: false },
   { fromSym: 'ETH', fromName: 'Ethereum', toSym: 'USD', toName: 'US Dollar', rate: 2680, isCryptoToCrypto: false },
@@ -321,10 +324,14 @@ function getPairEditorial(pair) {
     return {
       h1: 'SOL to USD Converter - Live Solana Exchange Rate',
       intro: `Convert Solana (SOL) to US Dollar (USD) at live exchange rates updated every 25 seconds. Benchmark spot rate for 1 SOL is approximately <strong>${formatRate(pair.rate)} USD</strong>.`,
-      aboutTitle: 'Solana (SOL) to USD Market Dynamics & Trading Overview',
+      aboutTitle: 'Solana (SOL) to USD Market Dynamics & 40 SOL Calculations',
       aboutContent: `
         <p>Solana is a high-speed Layer 1 blockchain engineered for high-throughput decentralized applications, featuring Proof of History (PoH) and Proof of Stake (PoS) consensus capable of processing over 65,000 transactions per second with sub-second settlement.</p>
         <p style="margin-top: 12px;"><strong>24h Market Mechanics:</strong> The SOL/USD trading pair is among the top 5 most liquid cryptocurrency markets globally, with billions in daily volume across Binance, Coinbase, and Kraken. Intraday price movements reflect decentralized exchange (DEX) activity on Raydium and Orca, developer adoption, and macro crypto market momentum.</p>
+        
+        <h3 style="color: #f8fafc; font-size: 18px; margin-top: 20px;">40 SOL to USD: Current Market Value</h3>
+        <p style="margin-top: 8px;">At current market rates, <strong>40 SOL</strong> converts to approximately <strong>$${(40 * pair.rate).toLocaleString('en-US', { maximumFractionDigits: 2 })} USD</strong>. Check our instant multi-amount table above for real-time calculations from 0.01 to 500 SOL with zero platform fees.</p>
+
         <p style="margin-top: 12px;"><strong>Purchasing Power Analysis:</strong> At current market rates, $100 USD purchases approximately <strong>${(100 / pair.rate).toFixed(3)} SOL</strong>, while $500 USD converts to ~<strong>${(500 / pair.rate).toFixed(3)} SOL</strong>. Our free converter supports precision calculations for micro-transactions (0.01, 0.02, 0.04, 0.1 SOL) and larger holdings up to 500+ SOL with zero platform fees.</p>
       `
     };
@@ -332,11 +339,18 @@ function getPairEditorial(pair) {
   if (pair.fromSym === 'ETH' && pair.toSym === 'BTC') {
     return {
       h1: 'ETH to BTC Converter - Live Ethereum to Bitcoin Rate',
-      intro: `Track the real-time Ethereum to Bitcoin (ETH/BTC) ratio. 1 ETH currently converts to approximately <strong>${pair.rate} BTC</strong> (approximately 3,900,000 Satoshis).`,
+      intro: `Track the real-time Ethereum to Bitcoin (ETH/BTC) ratio. 1 ETH currently converts to approximately <strong>${pair.rate.toFixed(4)} BTC</strong> (approximately ${Math.round(pair.rate * 100000000).toLocaleString()} Satoshis).`,
       aboutTitle: 'Understanding the ETH/BTC Ratio & Crypto Market Cycles',
       aboutContent: `
         <p>The ETH/BTC exchange rate is the digital asset industry's primary barometer for measuring relative market strength between smart contract infrastructure (Ethereum) and sovereign digital gold (Bitcoin).</p>
-        <p style="margin-top: 12px;"><strong>Market Cycle Indicator:</strong> Historically oscillating between 0.030 and 0.080 BTC per ETH, the ETH/BTC pair is heavily monitored by institutional desks to detect the onset of 'Altseason'. When ETH gains strength against BTC, capital typically rotates outward into Layer 1 and Layer 2 ecosystems.</p>
+        
+        <h3 style="color: #f8fafc; font-size: 18px; margin-top: 20px;">1 ETH to BTC: Current Exchange Ratio</h3>
+        <p style="margin-top: 8px;">Right now, <strong>1 ETH to BTC</strong> trades at approximately <strong>${pair.rate.toFixed(4)} BTC</strong> (or ~${Math.round(pair.rate * 100000000).toLocaleString()} Satoshis). The ETH/BTC ratio is the primary indicator traders monitor to gauge altcoin strength against Bitcoin.</p>
+
+        <h3 style="color: #f8fafc; font-size: 18px; margin-top: 20px;">5 ETH to BTC: Conversion Benchmark</h3>
+        <p style="margin-top: 8px;">At current spot rates, <strong>5 ETH to BTC</strong> equals approximately <strong>${(5 * pair.rate).toFixed(4)} BTC</strong>. Our live converter streams order book midpoints directly from Binance with zero markup.</p>
+
+        <p style="margin-top: 12px;"><strong>Market Cycle Indicator:</strong> Historically oscillating between 0.025 and 0.080 BTC per ETH, the ETH/BTC pair is heavily monitored by institutional desks to detect the onset of 'Altseason'. When ETH gains strength against BTC, capital typically rotates outward into Layer 1 and Layer 2 ecosystems.</p>
         <p style="margin-top: 12px;"><strong>Multi-Unit Denominations:</strong> Popular conversion benchmarks: <strong>5 ETH</strong> converts to approximately <strong>${(5 * pair.rate).toFixed(4)} BTC</strong>, <strong>10 ETH</strong> equals ~<strong>${(10 * pair.rate).toFixed(4)} BTC</strong>, and <strong>100 ETH</strong> equals ~<strong>${(100 * pair.rate).toFixed(3)} BTC</strong>. CoinRates streams order book midpoints directly from Binance, avoiding retail broker slippage.</p>
       `
     };
@@ -360,6 +374,10 @@ function getPairEditorial(pair) {
       aboutTitle: 'DOGE/USDT Market Depth & Tron USDTRX Trading Note',
       aboutContent: `
         <p>DOGE/USDT is the single largest trading pair for Dogecoin worldwide, enabling traders to lock in dollar-denominated profits into the Tether stablecoin without exiting to traditional banking rails.</p>
+        
+        <h3 style="color: #f8fafc; font-size: 18px; margin-top: 20px;">100 DOGE to USDT: Live Conversion Value</h3>
+        <p style="margin-top: 8px;">At current spot rates, <strong>100 DOGE to USDT</strong> converts to approximately <strong>${(100 * pair.rate).toFixed(2)} USDT</strong>. On the Tron blockchain, this pair trades seamlessly as USDTRX (TRC-20 USDT) with ultra-low network gas fees.</p>
+
         <p style="margin-top: 12px; background: rgba(30, 41, 59, 0.7); padding: 14px; border-radius: 8px; border-left: 3px solid #10b981;">
           <strong>Tron USDTRX Ticker Note:</strong> On the TRON blockchain, USDT is commonly identified by the contract ticker <strong>USDTRX</strong> (TRC-20 USDT). If you are searching for 'doge to usd trx' or 'exchange doge to usdtrx', the exchange rate is 1:1 identical to DOGE/USDT, settled with negligible network fees on Tron.
         </p>
@@ -406,9 +424,13 @@ function getPairEditorial(pair) {
     return {
       h1: 'BTC to CAD Converter - Live Bitcoin to Canadian Dollar',
       intro: `Convert Bitcoin (BTC) to Canadian Dollar (CAD) at real-time exchange rates. Current benchmark spot rate for 1 BTC is approximately <strong>${formatRate(pair.rate)} CAD</strong>.`,
-      aboutTitle: 'Bitcoin Trading & Banking Integration in Canada',
+      aboutTitle: 'Bitcoin Trading & Banking Integration in Canada (Bitcoin Price CDN)',
       aboutContent: `
         <p>Canada was among the pioneer jurisdictions to approve spot Bitcoin ETFs and regulate crypto asset platforms through the Canadian Securities Administrators (CSA) and FINTRAC.</p>
+        
+        <h3 style="color: #f8fafc; font-size: 18px; margin-top: 20px;">Bitcoin Price CDN: Live BTC to Canadian Dollar (CAD) Rates</h3>
+        <p style="margin-top: 8px;">Tracking the <strong>bitcoin price cdn</strong>? 1 Bitcoin (BTC) is currently worth approximately <strong>$${formatRate(pair.rate)} CAD</strong> (Canadian Dollars). Canadian investors can calculate conversions for 0.001 to 10+ BTC using Canadian Interac e-Transfer banking benchmarks with zero platform fees on CoinRates.live.</p>
+
         <p style="margin-top: 12px;"><strong>Interac e-Transfer & Banking Rails:</strong> Canadian traders frequently convert between BTC and CAD using low-friction Interac e-Transfers and EFT deposits. 0.05 BTC equals approximately <strong>${(0.05 * pair.rate).toFixed(2)} CAD</strong>, and 0.1 BTC converts to ~<strong>${(0.1 * pair.rate).toFixed(2)} CAD</strong>.</p>
       `
     };
@@ -438,32 +460,26 @@ function getPairEditorial(pair) {
 
 async function fetchLiveRatesSafe(pairs) {
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 1500);
-    const res = await fetch('https://api.binance.com/api/v3/ticker/price', { signal: controller.signal });
-    clearTimeout(timeout);
-    if (!res.ok) return pairs;
-    const data = await res.json();
-    const priceMap = new Map();
-    for (const item of data) {
-      priceMap.set(item.symbol, parseFloat(item.price));
-    }
+    const [cRes, fRes] = await Promise.all([
+      fetch('https://data-api.binance.vision/api/v3/ticker/price', { signal: AbortSignal.timeout(8000) }),
+      fetch('https://open.er-api.com/v6/latest/USD', { signal: AbortSignal.timeout(8000) }),
+    ]);
+    if (!cRes.ok || !fRes.ok) throw new Error(`HTTP ${cRes.status}/${fRes.status}`);
+    const px = new Map((await cRes.json()).map(i => [i.symbol, parseFloat(i.price)]));
+    const fx = (await fRes.json()).rates;
+    // USD value of 1 unit of a symbol
+    const usd = s => (['USD', 'USDT', 'USDC'].includes(s) ? 1 : px.get(`${s}USDT`) ?? (fx[s] ? 1 / fx[s] : null));
     return pairs.map(p => {
-      const direct = `${p.fromSym}${p.toSym}`;
-      const usdt = `${p.fromSym}USDT`;
-      const toUsdt = `${p.toSym}USDT`;
-      if (priceMap.has(direct)) {
-        return { ...p, rate: priceMap.get(direct) };
+      const direct = px.get(`${p.fromSym}${p.toSym}`);
+      if (direct !== undefined) {
+        return { ...p, rate: direct };
       }
-      if (p.toSym === 'USD' && priceMap.has(usdt)) {
-        return { ...p, rate: priceMap.get(usdt) };
-      }
-      if (priceMap.has(usdt) && priceMap.has(toUsdt)) {
-        return { ...p, rate: priceMap.get(usdt) / priceMap.get(toUsdt) };
-      }
-      return p;
+      const a = usd(p.fromSym), b = usd(p.toSym);
+      if (!a || !b) { console.warn(`Fallback rate used: ${p.fromSym}-${p.toSym}`); return p; }
+      return { ...p, rate: a / b };
     });
-  } catch {
+  } catch (e) {
+    console.warn('ALL rates are fallbacks:', e.message);
     return pairs;
   }
 }
@@ -552,7 +568,7 @@ async function generatePages() {
       html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, `<script type="application/ld+json">\n${JSON.stringify(schemaObj, null, 2)}\n</script>`);
     }
 
-    html = html.replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${page.content}</div>`);
+    html = injectRoot(html, page.content);
 
     const pageDir = path.join(DIST_DIR, page.slug);
     fs.mkdirSync(pageDir, { recursive: true });
@@ -800,15 +816,11 @@ async function generatePages() {
       </main>
     `;
 
-    html = html.replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${preRenderedContent}</div>`);
+    html = injectRoot(html, preRenderedContent);
 
     const pairDir = path.join(DIST_DIR, 'convert', slug);
     fs.mkdirSync(pairDir, { recursive: true });
     fs.writeFileSync(path.join(pairDir, 'index.html'), html, 'utf-8');
-
-    const directDir = path.join(DIST_DIR, slug);
-    fs.mkdirSync(directDir, { recursive: true });
-    fs.writeFileSync(path.join(directDir, 'index.html'), html, 'utf-8');
 
     sitemapUrls.push(`  <url>
     <loc>${canonicalUrl}</loc>

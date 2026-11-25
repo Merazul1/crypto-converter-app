@@ -562,6 +562,18 @@ ${SHARED_FOOTER}
         {
           q: 'What is the HIFO accounting method and how does it lower taxes?',
           a: 'HIFO stands for Highest-In, First-Out. When selling or converting crypto, this method matches your sale against the highest purchase price in your cost basis history, maximizing your recognized cost and minimizing taxable net capital gains.'
+        },
+        {
+          q: 'Does converting crypto get taxed?',
+          a: 'Yes. Converting crypto (such as BTC to ETH or SOL to USDC) is legally a taxable disposal event in the US (IRS), UK, Canada, and Australia based on prevailing fair market value.'
+        },
+        {
+          q: 'How are PancakeSwap and DEX token swaps taxed?',
+          a: 'Every token swap on PancakeSwap triggers a capital gains tax calculation. Staking or liquidity farming rewards are taxed as ordinary income upon receipt.'
+        },
+        {
+          q: 'How do I report Gate.io crypto trades on my taxes?',
+          a: 'Export your complete trade history CSV from Gate.io under Orders > Spot Orders > Trade History and calculate your capital gains and losses using FIFO or HIFO accounting.'
         }
       ],
       content: `
@@ -632,8 +644,55 @@ ${SHARED_FOOTER}
             </table>
           </div>
 
+          <h2 style="color: #f8fafc; font-size: 24px; margin-top: 36px; border-bottom: 1px solid #334155; padding-bottom: 8px;">3. Does Converting Crypto Get Taxed?</h2>
+          <p>
+            <strong>Yes, converting crypto is legally recognized as a taxable event</strong> by tax agencies including the IRS (United States), HMRC (United Kingdom), CRA (Canada), and ATO (Australia). When you exchange one cryptocurrency for another (such as Bitcoin for Ethereum or Solana for Tether), the tax authority treats the transaction as two simultaneous steps: disposing of your original coin at its fair market value in fiat currency, and immediately purchasing the new coin with that fiat.
+          </p>
+          <p style="margin-top: 12px;">
+            If the fair market value of the coin you are selling is higher than what you originally paid for it (your cost basis), you trigger a reportable capital gain. If the market value is lower than your cost basis, you realize a capital loss, which can be used for tax-loss harvesting to reduce your overall tax bill.
+          </p>
+
+          <h2 style="color: #f8fafc; font-size: 24px; margin-top: 36px; border-bottom: 1px solid #334155; padding-bottom: 8px;">4. PancakeSwap Taxes: How DEX Swaps &amp; Liquidity Pools Are Taxed</h2>
+          <p>
+            <strong>Swapping tokens on PancakeSwap triggers taxable capital gains or losses on every trade</strong>, even though PancakeSwap is a decentralized exchange (DEX) without KYC requirements. In the eyes of the IRS and global tax authorities, trading on a smart contract on the BNB Smart Chain (BSC) carries the exact same tax obligations as trading on a regulated centralized exchange.
+          </p>
+          <p style="margin-top: 12px;">
+            Key PancakeSwap tax rules to follow:
+          </p>
+          <ul style="font-size: 14px; margin: 12px 0; padding-left: 20px; line-height: 1.8;">
+            <li><strong>BEP-20 Token Swaps:</strong> Swapping BNB for CAKE or BUSD is a property disposal event subject to capital gains tax.</li>
+            <li><strong>Liquidity Pool (LP) Tokens:</strong> Depositing tokens into PancakeSwap liquidity pools in exchange for CAKE-LP tokens is technically treated as a crypto-to-crypto swap in the US and UK.</li>
+            <li><strong>Yield Farming &amp; Staking Rewards:</strong> CAKE earned from farming pools is treated as ordinary income based on its fair market value on the day and hour it is claimed.</li>
+            <li><strong>BNB Gas Fees:</strong> Network gas fees paid in BNB to execute transactions on PancakeSwap are tax-deductible against your capital proceeds, lowering your net taxable gain.</li>
+          </ul>
+
+          <h2 style="color: #f8fafc; font-size: 24px; margin-top: 36px; border-bottom: 1px solid #334155; padding-bottom: 8px;">5. Gate.io Taxes: How to Report Spot Trades, Futures &amp; Conversions</h2>
+          <p>
+            <strong>All spot trading, token conversions, and futures profits executed on Gate.io must be reported on your annual tax return</strong>. While Gate.io is an international exchange that may not issue 1099 forms directly to domestic authorities, tax agencies increasingly utilize blockchain analytics and subpoenas to track off-ramp deposits into domestic bank accounts.
+          </p>
+          <p style="margin-top: 12px;">
+            How to file Gate.io taxes accurately:
+          </p>
+          <ul style="font-size: 14px; margin: 12px 0; padding-left: 20px; line-height: 1.8;">
+            <li><strong>Export Complete Trade History:</strong> Download your complete historical trade logs (CSV format) directly from Gate.io under <em>Orders &gt; Spot Orders &gt; Trade History &gt; Export</em>.</li>
+            <li><strong>Report Futures &amp; Perpetual Contracts:</strong> Net profits from Gate.io futures contracts are generally taxed as capital gains, though US traders must adhere to Section 1256 (60/40 rule) or ordinary income rules depending on local classifications.</li>
+            <li><strong>Include Gate.io Startup &amp; Airdrop Rewards:</strong> Any bonus tokens, fee rebates, or Startup airdrops received on Gate.io must be recorded as taxable ordinary income at the time of distribution.</li>
+          </ul>
+
           <div style="margin-top: 40px; padding: 24px; background: rgba(15, 23, 42, 0.7); border-radius: 12px; border: 1px solid #334155;">
             <h2 style="color: #f8fafc; font-size: 20px; margin-bottom: 16px; font-weight: 700;">Frequently Asked Questions (FAQ)</h2>
+            <div style="margin-bottom: 20px;">
+              <h3 style="color: #6ee7b7; font-size: 15px; font-weight: 700; margin-bottom: 4px;">Does converting one crypto to another trigger taxes?</h3>
+              <p style="font-size: 14px; margin: 0; line-height: 1.7;">Yes. Exchanging cryptocurrency for another token (like ETH to BTC or SOL to USDC) is legally recognized as a taxable disposal at current fair market value.</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <h3 style="color: #6ee7b7; font-size: 15px; font-weight: 700; margin-bottom: 4px;">How are PancakeSwap trades reported for tax purposes?</h3>
+              <p style="font-size: 14px; margin: 0; line-height: 1.7;">Each DEX swap triggers capital gains calculations. Use a crypto tax tracking tool to import your BSC wallet address and export Form 8949 data.</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <h3 style="color: #6ee7b7; font-size: 15px; font-weight: 700; margin-bottom: 4px;">Does Gate.io report to the IRS or tax authorities?</h3>
+              <p style="font-size: 14px; margin: 0; line-height: 1.7;">While Gate.io is an international exchange, transferring funds from Gate.io to domestic bank accounts or regulated on-ramps creates audit trails that must match your tax filing.</p>
+            </div>
             <div style="margin-bottom: 20px;">
               <h3 style="color: #6ee7b7; font-size: 15px; font-weight: 700; margin-bottom: 4px;">Do I pay taxes if I convert Bitcoin into a stablecoin like USDC?</h3>
               <p style="font-size: 14px; margin: 0; line-height: 1.7;">Yes. In almost all tax jurisdictions, stablecoins are classified as cryptocurrency property. Swapping BTC for USDC is legally considered a taxable disposal of property at fair market value.</p>
